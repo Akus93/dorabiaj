@@ -1,6 +1,6 @@
-from flask import session, escape, request, redirect, url_for, render_template
+from flask import session, escape, request, redirect, url_for, render_template, jsonify
 from . import app
-from .models import User
+from .models import User, DBSession
 
 
 @app.route('/')
@@ -11,7 +11,7 @@ def index():
     return 'You are not logged in'
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     error = None
     if request.method == 'POST':
@@ -21,13 +21,14 @@ def login():
             user = User.objects.get(username=username, password=password)
         except User.DoesNotExist:
             error = 'Invalid username or password'
-            return render_template('login.html', error=error)
+            return jsonify(error=error)
         session['user'] = user.id
-        return redirect(url_for('index'))
-    return render_template('login.html', error=error)
+        return user.to_json()
+    return jsonify(error=error)
 
 
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
+    DBSession.objects.get(pk=session.sid).delete()
+    session.clear()
     return redirect(url_for('index'))

@@ -1,6 +1,17 @@
 import datetime
-from flask import url_for
 from dorabiaj import db
+
+
+class DBSession(db.Document):
+    sid = db.StringField(primary_key=True)
+    data = db.DictField()
+    expiration = db.DateTimeField()
+    meta = {
+        'allow_inheritance': False,
+        'collection': 'session',
+        'indexes': [{'fields': ['expiration'],
+                     'expireAfterSeconds': 60 * 60 * 24 * 7 * 31}]
+    }
 
 
 class User(db.Document):
