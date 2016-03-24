@@ -1,6 +1,7 @@
 from flask import session, escape, request, redirect, url_for, render_template, jsonify
 from . import app
 from .models import User, DBSession
+from datetime import datetime
 
 
 @app.route('/')
@@ -27,8 +28,21 @@ def login():
     return jsonify(error=error)
 
 
-@app.route('/logout')
+@app.route('/login', methods=['GET'])
+def login_get():
+    return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET'])
 def logout():
     DBSession.objects.get(pk=session.sid).delete()
     session.clear()
     return redirect(url_for('index'))
+
+
+@app.route('/delete-old-sessions', methods=['GET'])
+def delete_old_sessions():
+    old_sessions = DBSession.objects.filter(expiration__lte=datetime.now())
+    old_sessions.delete()
+    return redirect(url_for('index'))
+
