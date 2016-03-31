@@ -33,7 +33,10 @@ def get_login():
 
 @app.route('/logout', methods=['GET', 'DELETE'])
 def logout():
-    DBSession.objects.get(pk=session.sid).delete()
+    try:
+        DBSession.objects.get(pk=session.sid).delete()
+    except User.DoesNotExist:
+        pass
     session.clear()
     return redirect(url_for('index'))
 
