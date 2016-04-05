@@ -41,6 +41,35 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/signup', methods=['GET'])
+def get_signup():
+    return render_template('signup.html')
+
+
+@app.route('/signup', methods=['POST'])
+def post_signup():
+    '''
+    Bardzo prosta rejestracja, wymaga usprawnień
+    '''
+    username = request.form['username']
+    password = request.form['password']
+    password2 = request.form['password2']
+    email = request.form['email']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    city = request.form['city']
+    if password != password2:
+        error = {'error': 'Hasła nie są takie same'}
+        return Response(json.dumps(error), status=400, content_type='application/json')  # TODO bad status
+    if User.objects.filter(username=username).count():
+        error = {'error': 'Username jest już zajęty'}
+        return Response(json.dumps(error), status=400, content_type='application/json')  # TODO bad status
+    new_user = User(username=username, password=password, email=email,
+                    first_name=first_name, last_name=last_name, city=city)
+    new_user.save()
+    return Response(new_user.to_json(), status=200, content_type='application/json')
+
+
 @app.route('/delete-old-sessions', methods=['GET'])
 def delete_old_sessions():
     """
