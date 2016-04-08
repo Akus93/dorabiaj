@@ -70,6 +70,7 @@ def post_signup():
     return Response(new_user.to_json(), status=200, content_type='application/json')
 
 
+
 @app.route('/delete-old-sessions', methods=['GET'])
 def delete_old_sessions():
     """

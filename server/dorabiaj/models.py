@@ -35,3 +35,5 @@ class User(db.Document):
     meta = {
         'indexes': ['pk']
     }
+
+
