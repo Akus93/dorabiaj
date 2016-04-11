@@ -4,6 +4,7 @@ from datetime import datetime
 from . import app
 from .models import User, DBSession
 from .functions import is_authorized, get_user, login_required
+from .forms import RegisterForm
 
 
 @app.route('/')
@@ -69,6 +70,16 @@ def post_signup():
     new_user.save()
     return Response(new_user.to_json(), status=200, content_type='application/json')
 
+
+@app.route('/signup-test', methods=['POST'])
+def test_signup():
+    form = RegisterForm(request.form)
+    if form.is_vailid():
+        user = form.save()
+        return Response(user.to_json(), status=200, content_type='application/json')
+    else:
+        error = form.get_errors()
+        return Response(json.dumps(error), status=400, content_type='application/json')
 
 
 @app.route('/delete-old-sessions', methods=['GET'])

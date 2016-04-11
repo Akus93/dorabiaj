@@ -1,4 +1,6 @@
 from .models import User
+from re import match as re_match
+from string import ascii_letters, digits
 
 
 class Form:
@@ -19,6 +21,18 @@ class Form:
             self.min_length
         except AttributeError:
             self.min_length = {}
+        try:
+            self.unique
+        except AttributeError:
+            self.unique = []
+        try:
+            self.email
+        except AttributeError:
+            self.email = []
+        try:
+            self.allowed_chars
+        except AttributeError:
+            self.allowed_chars = {}
         self.data = data
         self.error = {}
         self.cleaned_data = {}
@@ -63,10 +77,47 @@ class Form:
                         except KeyError:
                             self.error[key] = 'Pole posiada za małą liczbe znaków. Minimalnie {}.'.format(value)
 
+    def check_unique(self):
+        if self.unique:
+            for value in self.unique:
+                if not self.error.get(value):
+                    param = {value: self.cleaned_data[value]}
+                    obj = self.model.objects.filter(**param).count()
+                    if obj:
+                        try:
+                            self.error[value] = self.error_message[value]['unique']
+                        except KeyError:
+                            self.error[value] = 'To pole jest już zajęte.'
+
+    def check_email(self):
+        if self.email:
+            for value in self.email:
+                if not self.error.get(value):
+                    if not re_match(r'[^@]+@[^@]+\.[^@]+', self.cleaned_data[value]):
+                        try:
+                            self.error[value] = self.error_message[value]['email']
+                        except KeyError:
+                            self.error[value] = 'Niepoprawny adres email.'
+
+    def check_allowed_chars(self):
+        if self.allowed_chars:
+            for key, value in self.allowed_chars.items():
+                if not self.error.get(key):
+                    for char in self.cleaned_data[key]:
+                        if char not in value:
+                            try:
+                                self.error[key] = self.error_message[key]['allowed_chars']
+                            except KeyError:
+                                self.error[key] = 'Niedozwolony znak: {}'.format(char)
+                            break
+
     def check_all(self):
         self.check_required()
+        self.check_allowed_chars()
         self.check_max_length()
         self.check_min_length()
+        self.check_email()
+        self.check_unique()
 
     def get_errors(self):
         return self.error
@@ -83,19 +134,27 @@ class Form:
 
     def save(self):
         data = self.data_to_save()
-        self.model(**data).save()
+        new = self.model(**data)
+        new.save()
+        return new
 
 
 class RegisterForm(Form):
 
     model = User
-    fields = ['username', 'password', 'email', 'first_name', 'last_name', 'city']
+    fields = ['username', 'password', 'email', 'first_name', 'last_name', 'city', ]
     required = ['username', 'password', 'password2', 'email', ]
     max_length = {'username': 50, }
-    min_length = {'email': 5, }
+    min_length = {'email': 5, 'username': 4, }
+    unique = ['username', ]
+    email = ['email', ]
+    allowed_chars = {'username': ascii_letters + digits,
+                     'email': ascii_letters + digits + '@.',
+                     }
     error_message = {
         'username': {
-            'required': 'Wpisz poprawny nick!'
+            'required': 'Wpisz poprawny nick.',
+            'unique': 'Ten login jest juz zajęty.'
         }
     }
 
@@ -108,5 +167,3 @@ class RegisterForm(Form):
         super(RegisterForm, self).check_all()
         self.check_password()
 
-    def save(self):
-        super(RegisterForm, self).save()
