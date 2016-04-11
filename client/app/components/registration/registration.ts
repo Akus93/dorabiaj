@@ -1,32 +1,34 @@
 import {Component} from 'angular2/core';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
-import {FORM_DIRECTIVES} from 'angular2/common';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {Http, Headers} from 'angular2/http';
+import {Headers, RequestOptions, HTTP_PROVIDERS} from 'angular2/http';
+
 
 @Component({
   selector: 'registration',
   templateUrl: './components/registration/registration.html',
   styleUrls: ['./components/registration/registration.css'],
-  directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES]
+  directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
+  providers: [HTTP_PROVIDERS]
 })
 export class RegistrationCmp {
-  user = {
-    title: 'Developer',
-    email: 'ipsum@lorem.com',
-    firstName: '',
-    lastName: '',
-    company: 'Google',
-    address: '1600 Amphitheatre Pkwy',
-    address2: '',
-    city: 'Mountain View',
-    state: 'CA',
-    biography: 'Loves kittens, snowboarding, and can type at 130 WPM.\n\nAnd rumor has it she bouldered up Castle Craig!',
-    postalCode: '94043'
-  };
-  states = [
-    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
-    'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA',
-    'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
-  ].map(function (state) {
-    return {abbrev: state};
-  });
+  public username: string;
+  public email: string;
+  public password: string;
+  public password2: string;
+  public city: string;
+  public first_name: string;
+  public last_name: string;
+
+
+  validate() {
+    return true;
+  }
+
+  signup() {
+    console.log(this.username);
+  }
 }
+
+
