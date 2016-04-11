@@ -145,12 +145,15 @@ class RegisterForm(Form):
     model = User
     fields = ['username', 'password', 'email', 'first_name', 'last_name', 'city', ]
     required = ['username', 'password', 'password2', 'email', 'first_name', 'last_name', 'city']
-    max_length = {'username': 50, }
+    max_length = {'username': 50, 'email': 64, 'first_name': 64, 'last_name': 64, 'city': 64, }
     min_length = {'username': 5, 'email': 5, }
-    unique = ['username', ]
+    unique = ['username', 'email', ]
     email = ['email', ]
     allowed_chars = {'username': ascii_letters + digits,
                      'email': ascii_letters + digits + '@.',
+                     'first_name': ascii_letters + ' ',
+                     'last_name': ascii_letters + ' ',
+                     'city': ascii_letters + ' ',
                      }
     error_message = {
         'username': {
