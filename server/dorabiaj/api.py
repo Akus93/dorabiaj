@@ -1,5 +1,6 @@
-from flask import session, escape, request, Response, redirect, url_for, render_template, json
+from flask import session, request, Response, redirect, url_for, render_template, json
 from datetime import datetime
+from werkzeug.security import check_password_hash
 
 from . import app
 from .models import User, DBSession
@@ -19,9 +20,12 @@ def post_login():
     username = request.form['username']
     password = request.form['password']
     try:
-        user = User.objects.get(username=username, password=password)
+        user = User.objects.get(username=username)
     except User.DoesNotExist:
-        error = {'error': 'Invalid username or password'}
+        error = {'error': 'Invalid username'}
+        return Response(json.dumps(error), status=422, content_type='application/json')
+    if not check_password_hash(user.password, password):
+        error = {'error': 'Wrong password'}
         return Response(json.dumps(error), status=422, content_type='application/json')
     session['user'] = user.id
     return Response(user.to_json(), status=200, content_type='application/json')
@@ -49,30 +53,6 @@ def get_signup():
 
 @app.route('/signup', methods=['POST'])
 def post_signup():
-    '''
-    Bardzo prosta rejestracja, wymaga usprawnień
-    '''
-    username = request.form['username']
-    password = request.form['password']
-    password2 = request.form['password2']
-    email = request.form['email']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    city = request.form['city']
-    if password != password2:
-        error = {'error': 'Hasła nie są takie same'}
-        return Response(json.dumps(error), status=400, content_type='application/json')  # TODO bad status
-    if User.objects.filter(username=username).count():
-        error = {'error': 'Username jest już zajęty'}
-        return Response(json.dumps(error), status=400, content_type='application/json')  # TODO bad status
-    new_user = User(username=username, password=password, email=email,
-                    first_name=first_name, last_name=last_name, city=city)
-    new_user.save()
-    return Response(new_user.to_json(), status=200, content_type='application/json')
-
-
-@app.route('/signup-test', methods=['POST'])
-def test_signup():
     form = RegisterForm(request.form)
     if form.is_vailid():
         user = form.save()

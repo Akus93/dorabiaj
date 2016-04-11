@@ -1,6 +1,7 @@
 from .models import User
 from re import match as re_match
 from string import ascii_letters, digits
+from werkzeug.security import generate_password_hash
 
 
 class Form:
@@ -143,9 +144,9 @@ class RegisterForm(Form):
 
     model = User
     fields = ['username', 'password', 'email', 'first_name', 'last_name', 'city', ]
-    required = ['username', 'password', 'password2', 'email', ]
+    required = ['username', 'password', 'password2', 'email', 'first_name', 'last_name', 'city']
     max_length = {'username': 50, }
-    min_length = {'email': 5, 'username': 4, }
+    min_length = {'username': 5, 'email': 5, }
     unique = ['username', ]
     email = ['email', ]
     allowed_chars = {'username': ascii_letters + digits,
@@ -166,4 +167,8 @@ class RegisterForm(Form):
     def check_all(self):
         super(RegisterForm, self).check_all()
         self.check_password()
+
+    def save(self):
+        self.cleaned_data['password'] = generate_password_hash(self.cleaned_data['password'])
+        return super(RegisterForm, self).save()
 
