@@ -16,17 +16,18 @@ def index():
 
 
 @app.route('/login', methods=['POST'])
+@crossdomain(origin='*')
 def post_login():
     username = request.form['username']
     password = request.form['password']
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        error = {'error': 'Invalid username'}
-        return Response(json.dumps(error), status=422, content_type='application/json')
+        error = {'error': 'Niepoprawny login'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
     if not check_password_hash(user.password, password):
-        error = {'error': 'Wrong password'}
-        return Response(json.dumps(error), status=422, content_type='application/json')
+        error = {'error': 'Zle hasło'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
     session['user'] = user.id
     return Response(user.to_json(), status=200, content_type='application/json')
 
@@ -62,3 +63,4 @@ def delete_old_sessions():
     old_sessions = DBSession.objects.filter(expiration__lte=datetime.now())
     old_sessions.delete()
     return redirect(url_for('index'))
+

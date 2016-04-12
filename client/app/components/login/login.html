@@ -1,19 +1,18 @@
-<md-toolbar class="md-hero" layout="row" layout-align="center center" layout-align-gt-md="end end">
-  <i class="secret-project" md-icon>person</i>
-</md-toolbar>
+<h1 class="md-headline">Logowanie</h1>
 <md-content layout-padding>
-  <form name="userForm">
+  <form name="loginForm" (submit)="login()">
+    <span [hidden]="error==false">{{error}}</span><br><br>
     <div layout-gt-sm="row">
       <md-input-container class="md-block" flex-gt-sm>
-        <label>Email</label>
-        <input md-input type="email">
+        <label>Username</label>
+        <input md-input id="username" [(ngModel)]="data['username']">
       </md-input-container>
-    </div>
-    <div layout-gt-xs="row">
       <md-input-container class="md-block" flex-gt-sm>
         <label>Password</label>
-        <input md-input type="password">
+        <input md-input id="password" [(ngModel)]="data['password']" type="password">
       </md-input-container>
     </div>
+
+    <button md-button type="submit">Zaloguj</button>
   </form>
 </md-content>
