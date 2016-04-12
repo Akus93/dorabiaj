@@ -3,6 +3,7 @@ import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {Headers, HTTP_PROVIDERS, Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
+import {Router} from 'angular2/router';
 
 
 @Component({
@@ -13,13 +14,6 @@ import 'rxjs/add/operator/map';
   providers: [HTTP_PROVIDERS]
 })
 export class RegistrationCmp {
-  public username: string;
-  public email: string;
-  public password: string;
-  public password2: string;
-  public city: string;
-  public first_name: string;
-  public last_name: string;
 
   public user = {
     'username': '',
@@ -31,7 +25,9 @@ export class RegistrationCmp {
     'last_name': ''
   };
 
-  constructor(public http: Http) { }
+  public error = {};
+
+  constructor(public http: Http, private router: Router) { }
 
 
   undefinedToNull() {
@@ -51,7 +47,9 @@ export class RegistrationCmp {
   check_response(response) {
     if (response.hasOwnProperty('success')) {
       console.log('Success!');
+      this.router.navigate(['Home']);
     } else if (response.hasOwnProperty('error')) {
+      this.error = response['error'];
       console.log(response);
     }
   }
