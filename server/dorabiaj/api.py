@@ -31,11 +31,6 @@ def post_login():
     return Response(user.to_json(), status=200, content_type='application/json')
 
 
-@app.route('/login', methods=['GET', 'OPTIONS'])
-def get_login():
-    return render_template('login.html')
-
-
 @app.route('/logout', methods=['GET', 'DELETE'])
 def logout():
     try:
@@ -44,11 +39,6 @@ def logout():
         pass
     session.clear()
     return redirect(url_for('index'))
-
-
-@app.route('/signup', methods=['GET'])
-def get_signup():
-    return render_template('signup.html')
 
 
 @app.route('/signup', methods=['POST'])
@@ -72,6 +62,3 @@ def delete_old_sessions():
     old_sessions = DBSession.objects.filter(expiration__lte=datetime.now())
     old_sessions.delete()
     return redirect(url_for('index'))
-
-
-

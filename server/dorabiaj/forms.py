@@ -2,31 +2,20 @@ from .models import User
 from re import match as re_match
 from string import ascii_letters, digits
 from werkzeug.security import generate_password_hash
-from json import dumps
 
 
-class Form:
+class ModelForm:
     def __init__(self, data):
+        self.data = data
+        self.properties = ['required', 'max_length', 'min_length', 'unique']
+        self.required = {}
+        self.max_length = {}
+        self.min_length = {}
+        self.unique = {}
         try:
             self.fields
         except AttributeError:
-            self.fields = None
-        try:
-            self.required
-        except AttributeError:
-            self.required = []
-        try:
-            self.max_length
-        except AttributeError:
-            self.max_length = {}
-        try:
-            self.min_length
-        except AttributeError:
-            self.min_length = {}
-        try:
-            self.unique
-        except AttributeError:
-            self.unique = []
+            self.fields = []
         try:
             self.email
         except AttributeError:
@@ -35,16 +24,23 @@ class Form:
             self.allowed_chars
         except AttributeError:
             self.allowed_chars = {}
-        self.data = data
+        try:
+            self.additional
+        except AttributeError:
+            self.additional = {}
         self.error = {}
         self.cleaned_data = {}
-        for key, value in self.data.items():
-            self.cleaned_data[key] = self.clean(value)
+        self.set_properties()
+        self.clean_data()
         self.check_all()
 
     def clean(self, value):
         cleaned = value.strip()
         return cleaned
+
+    def clean_data(self):
+        for key, value in self.data.items():
+            self.cleaned_data[key] = self.clean(value)
 
     def is_vailid(self):
         if self.error:
@@ -53,7 +49,7 @@ class Form:
 
     def check_required(self):
         for key, value in self.cleaned_data.items():
-            if not value and key in self.required:
+            if not value and key in self.required.keys():
                 try:
                     self.error[key] = self.error_message[key]['required']
                 except KeyError:
@@ -81,7 +77,7 @@ class Form:
 
     def check_unique(self):
         if self.unique:
-            for value in self.unique:
+            for value in self.unique.keys():
                 if not self.error.get(value):
                     param = {value: self.cleaned_data[value]}
                     obj = self.model.objects.filter(**param).count()
@@ -140,15 +136,28 @@ class Form:
         new.save()
         return new
 
+    def set_additional_properties(self):
+        if self.additional:
+            for key, value in self.additional.items():
+                for _key, _value in value.items():
+                    getattr(self, _key)[key] = _value
 
-class RegisterForm(Form):
+    def set_properties(self):
+        self.set_additional_properties()
+        for field in self.fields:
+            for _property in self.properties:
+                prop = getattr(getattr(self.model, field), _property)
+                if prop:
+                    getattr(self, _property)[field] = prop
+
+
+class RegisterForm(ModelForm):
 
     model = User
     fields = ['username', 'password', 'email', 'first_name', 'last_name', 'city', ]
-    required = ['username', 'password', 'password2', 'email', 'first_name', 'last_name', 'city']
-    max_length = {'username': 50, 'email': 64, 'first_name': 64, 'last_name': 64, 'city': 64, }
-    min_length = {'username': 5, 'email': 5, }
-    unique = ['username', 'email', ]
+    additional = {
+        'password2': {'required': True, },
+    }
     email = ['email', ]
     allowed_chars = {'username': ascii_letters + digits,
                      'email': ascii_letters + digits + '@.',
@@ -175,4 +184,5 @@ class RegisterForm(Form):
     def save(self):
         self.cleaned_data['password'] = generate_password_hash(self.cleaned_data['password'])
         return super(RegisterForm, self).save()
+
 
