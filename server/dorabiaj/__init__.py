@@ -1,6 +1,7 @@
 from flask import Flask
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 
+
 app = Flask(__name__)
 
 app.config['MONGODB_DB'] = 'dorabiajdb'

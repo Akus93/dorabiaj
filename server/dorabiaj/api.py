@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash
 
 from . import app
 from .models import User, DBSession
-from .functions import is_authorized, get_user, login_required
+from .functions import is_authorized, get_user, login_required, crossdomain
 from .forms import RegisterForm
 
 
@@ -31,7 +31,7 @@ def post_login():
     return Response(user.to_json(), status=200, content_type='application/json')
 
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'OPTIONS'])
 def get_login():
     return render_template('login.html')
 
@@ -71,4 +71,22 @@ def delete_old_sessions():
     old_sessions = DBSession.objects.filter(expiration__lte=datetime.now())
     old_sessions.delete()
     return redirect(url_for('index'))
+
+
+@app.route('/ajax', methods=['GET'])
+@crossdomain(origin='*')
+def ajax():
+    return Response(json.dumps({'test': 'value'}), status=200, content_type='application/json')
+
+
+@app.route('/ajax-post', methods=['POST'])
+# @crossdomain(origin='*')
+def post_ajax():
+    a = 'asdsad'
+    response = Response(json.dumps({'asd': 'asdd'}), status=200, content_type='application/json')
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
+
 
