@@ -36,4 +36,13 @@ class User(db.Document):
         'indexes': ['pk']
     }
 
+class Content(db.EmbeddedDocument):
+    text = db.StringField()
+    lang = db.StringField(max_length=3)
 
+class Post(db.Document):
+    #title = db.StringField(max_length=120, required=True, validators=[validators.InputRequired(message=u'Missing title.'),])
+    title = db.StringField(max_length=120, required=True)
+    author = db.ReferenceField(User)
+    tags = db.ListField(db.StringField(max_length=30))
+    content = db.EmbeddedDocumentField(Content)
