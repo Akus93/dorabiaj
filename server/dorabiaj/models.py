@@ -14,6 +14,15 @@ class DBSession(db.Document):
     }
 
 
+class Opinion(db.EmbeddedDocument):
+    owner = db.ReferenceField(User)
+    owner_nick = db.StringField()
+    description = db.StringField()
+    rank = db.IntField()
+    category = db.StringField()
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+
+
 class User(db.Document):
     username = db.StringField(max_length=50, min_length=5, required=True)
     password = db.StringField(required=True)
@@ -24,6 +33,7 @@ class User(db.Document):
     interests = db.ListField()
     tokens = db.IntField(default=0, require=True)
     is_superuser = db.BooleanField(default=False, require=True)
+    opinions = db.EmbeddedDocument(Opinion)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
 
     def get_full_name(self):
@@ -37,14 +47,34 @@ class User(db.Document):
     }
 
 
-class Content(db.EmbeddedDocument):
-    text = db.StringField()
-    lang = db.StringField(max_length=3)
+class Province(db.Document):
+    name = db.StringField()
 
 
-class Post(db.Document):
-    # title = db.StringField(max_length=120, required=True, validators=[validators.InputRequired(message=u'Missing title.'),])
-    title = db.StringField(max_length=120, required=True)
-    author = db.ReferenceField(User)
-    tags = db.ListField(db.StringField(max_length=30))
-    content = db.EmbeddedDocumentField(Content)
+class Category(db.Document):
+    name = db.StringField()
+
+
+class Offer(db.EmbeddedDocument):
+    owner = db.ReferenceField(User)
+    owner_nick = db.StringField()
+    price = db.FloatField()
+    is_accepted = db.BooleanField(default=False)
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+
+
+class Classified(db.Document):
+    title = db.StringField(required=True)
+    owner = db.ReferenceField(User)
+    owner_nick = db.StringField()
+    description = db.StringField(required=True)
+    budget = db.FloatField()
+    province = db.StringField()
+    city = db.StringField()
+    category = db.StringField()
+    begin_date = db.DateTimeField()
+    end_date = db.DateTimeField()
+    offers = db.EmbeddedDocumentField(Offer)
+    phone = db.StringField()
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+
