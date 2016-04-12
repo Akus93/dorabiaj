@@ -52,14 +52,15 @@ def get_signup():
 
 
 @app.route('/signup', methods=['POST'])
+@crossdomain(origin='*')
 def post_signup():
     form = RegisterForm(request.form)
     if form.is_vailid():
-        user = form.save()
-        return Response(user.to_json(), status=200, content_type='application/json')
+        form.save()
+        return Response(json.dumps({'success': True}), status=200, content_type='application/json')
     else:
         error = form.get_errors()
-        return Response(json.dumps(error), status=400, content_type='application/json')
+        return Response(json.dumps(error), status=200, content_type='application/json')
 
 
 @app.route('/delete-old-sessions', methods=['GET'])
@@ -72,21 +73,5 @@ def delete_old_sessions():
     old_sessions.delete()
     return redirect(url_for('index'))
 
-
-@app.route('/ajax', methods=['GET'])
-@crossdomain(origin='*')
-def ajax():
-    return Response(json.dumps({'test': 'value'}), status=200, content_type='application/json')
-
-
-@app.route('/ajax-post', methods=['POST'])
-# @crossdomain(origin='*')
-def post_ajax():
-    a = 'asdsad'
-    response = Response(json.dumps({'asd': 'asdd'}), status=200, content_type='application/json')
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-    return response
 
 

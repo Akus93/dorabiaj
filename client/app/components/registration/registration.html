@@ -5,36 +5,36 @@
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Username</label>
-          <input md-input id="username" [(ngModel)]="username">
+          <input md-input id="username" [(ngModel)]="user['username']">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <label>Email</label>
-          <input md-input id="email" [(ngModel)]="email" type="email">
+          <input md-input id="email" [(ngModel)]="user['email']" type="email">
         </md-input-container>
       </div>
         <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Hasło</label>
-          <input md-input id="password" [(ngModel)]="password" type="password">
+          <input md-input id="password" [(ngModel)]="user['password']" type="password">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <label>Powtórz hasło</label>
-          <input md-input id="password2" [(ngModel)]="password2" type="password">
+          <input md-input id="password2" [(ngModel)]="user['password2']" type="password">
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Imię</label>
-          <input md-input id="first_name" [(ngModel)]="first_name">
+          <input md-input id="first_name" [(ngModel)]="user['first_name']">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <label>Nazwisko</label>
-          <input md-input id="last_name" [(ngModel)]="last_name">
+          <input md-input id="last_name" [(ngModel)]="user['last_name']">
         </md-input-container>
       </div>
       <md-input-container class="md-block">
         <label>Miasto</label>
-        <input md-input id="city" [(ngModel)]="city">
+        <input md-input id="city" [(ngModel)]="user['city']" value="">
       </md-input-container>
       <button md-button type="submit">Zarejestruj</button>
     </form>

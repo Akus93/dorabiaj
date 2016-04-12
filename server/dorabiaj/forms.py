@@ -2,6 +2,7 @@ from .models import User
 from re import match as re_match
 from string import ascii_letters, digits
 from werkzeug.security import generate_password_hash
+from json import dumps
 
 
 class Form:
@@ -121,7 +122,7 @@ class Form:
         self.check_unique()
 
     def get_errors(self):
-        return self.error
+        return {'error': self.error}
 
     def data_to_save(self):
         if self.fields:
