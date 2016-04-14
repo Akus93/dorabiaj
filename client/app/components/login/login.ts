@@ -22,7 +22,7 @@ export class LoginCmp {
 
   public error: string;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private router: Router) { }
 
   undefinedToNull() {
     for (var key in this.data) {
@@ -41,6 +41,8 @@ export class LoginCmp {
   check_response(response) {
     if (response.hasOwnProperty('username')) {
       console.log(response);
+      sessionStorage.setItem('login', 'true');
+      this.router.navigate(['Home']);
     } else if (response.hasOwnProperty('error')) {
       this.error = response['error'];
       console.log(response);

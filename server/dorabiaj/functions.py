@@ -2,6 +2,9 @@ from flask import session
 from .models import User
 from functools import wraps
 from flask import redirect, url_for
+from datetime import timedelta
+from flask import make_response, request, current_app
+from functools import update_wrapper
 
 
 def login_required(f):
@@ -31,11 +34,6 @@ def is_authorized():
     :return bool
     """
     return True if 'user' in session else False
-
-
-from datetime import timedelta
-from flask import make_response, request, current_app
-from functools import update_wrapper
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):

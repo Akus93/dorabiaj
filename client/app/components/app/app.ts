@@ -29,4 +29,16 @@ import {PeopleList} from '../../services/people_list';
   { path: '/registration', component: RegistrationCmp, as: 'Registration' }
 
 ])
-export class AppCmp {}
+export class AppCmp {
+
+  logout() {
+    sessionStorage.removeItem('login');
+  }
+
+  checkLogin() {
+    var session = sessionStorage.getItem('login');
+    if(session)
+      return true;
+    return false;
+  }
+}

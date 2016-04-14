@@ -40,13 +40,14 @@ def post_login():
 
 
 @app.route('/logout', methods=['GET', 'DELETE'])
+@crossdomain(origin='http://localhost:5555')
 def logout():
     try:
         DBSession.objects.get(pk=session.sid).delete()
-    except User.DoesNotExist:
+    except DBSession.DoesNotExist:
         pass
     session.clear()
-    return redirect(url_for('index'))
+    return Response(json.dumps({'success': True}), content_type='application/json')
 
 
 @app.route('/signup', methods=['POST'])
