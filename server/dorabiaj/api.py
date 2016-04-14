@@ -77,7 +77,7 @@ def delete_old_sessions():
 @crossdomain(origin='http://localhost:5555')
 def get_classifieds():
     try:
-        classifieds = Classified.objects.get()
+        classifieds = Classified.objects.all()
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszen'}
         return Response(json.dumps(error), status=200, content_type='application/json')
