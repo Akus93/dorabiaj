@@ -3,7 +3,7 @@ from datetime import datetime
 from werkzeug.security import check_password_hash
 
 from . import app
-from .models import User, DBSession
+from .models import User, DBSession, Classified
 from .functions import is_authorized, get_user, login_required, crossdomain
 from .forms import RegisterForm
 
@@ -63,4 +63,14 @@ def delete_old_sessions():
     old_sessions = DBSession.objects.filter(expiration__lte=datetime.now())
     old_sessions.delete()
     return redirect(url_for('index'))
+
+@app.route('/classifieds', methods=['GET'])
+def get_classifieds():
+    try:
+        classifieds = Classified.objects.get()
+    except Classified.DoesNotExist:
+        error = {'error': 'Brak ogloszen'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    return Response(classifieds.to_json(), status=200, content_type='application/json')
+
 
