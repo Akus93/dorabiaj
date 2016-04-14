@@ -2,6 +2,7 @@ import datetime
 from dorabiaj import db
 
 
+
 class DBSession(db.Document):
     sid = db.StringField(primary_key=True)
     data = db.DictField()
@@ -62,6 +63,13 @@ class Offer(db.EmbeddedDocument):
 
 
 class Classified(db.Document):
+    title = db.StringField()
+    description = db.StringField()
+    budget = db.StringField()
+    city = db.StringField()
+
+"""
+class Classified(db.Document):
     title = db.StringField(required=True, max_length=32, min_length=4)
     owner = db.ReferenceField(User)
     owner_nick = db.StringField()
@@ -70,11 +78,12 @@ class Classified(db.Document):
     province = db.StringField(required=True, max_length=32)
     city = db.StringField(required=True, max_length=64)
     category = db.StringField(required=True, max_length=128)
-    begin_date = db.DateTimeField(required=True)
-    end_date = db.DateTimeField(required=True)
+    begin_date = db.DateTimeField(required=False)
+    end_date = db.DateTimeField(required=False)
     offers = db.ListField(db.EmbeddedDocumentField(Offer))
     phone = db.StringField()
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+"""
 
 
 
