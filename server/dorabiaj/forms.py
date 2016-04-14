@@ -190,6 +190,3 @@ class ClassifiedForm(ModelForm):
     model = Classified
     fields = ['title','owner_nick','description','budget','province','city','category',
               'begin_date','end_date','phone','created_at']
-
-    def save(self):
-        return super(ClassifiedForm,self).save()

@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 from . import app
 from .models import User, DBSession, Classified
 from .functions import is_authorized, get_user, login_required, crossdomain
-from .forms import RegisterForm
+from .forms import RegisterForm, ClassifiedForm
 
 
 @app.route('/')
@@ -73,4 +73,13 @@ def get_classifieds():
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
 
+@app.route('/classified', methods=['POST'])
+def post_classified():
+    form = ClassifiedForm(request.form)
+    if form.is_vailid():
+        form.save()
+        return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+    else:
+        error = form.get_errors()
+        return Response(json.dumps(error), status=200, content_type='application/json')
 
