@@ -11,7 +11,7 @@ import {Router} from 'angular2/router';
   templateUrl: './components/registration/registration.html',
   styleUrls: ['./components/registration/registration.css'],
   directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
-  providers: [HTTP_PROVIDERS]
+  providers: []
 })
 export class RegistrationCmp {
 

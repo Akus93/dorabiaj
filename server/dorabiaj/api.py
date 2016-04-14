@@ -15,9 +15,16 @@ def index():
     return 'You are not logged in'
 
 
+@app.route('/login', methods=['GET'])
+@crossdomain(origin='http://localhost:5555')
+def get_login():
+    return render_template('login.html')
+
+
 @app.route('/login', methods=['POST'])
-@crossdomain(origin='*')
+@crossdomain(origin='http://localhost:5555')
 def post_login():
+    req = request
     username = request.form['username']
     password = request.form['password']
     try:
@@ -43,7 +50,7 @@ def logout():
 
 
 @app.route('/signup', methods=['POST'])
-@crossdomain(origin='*')
+@crossdomain(origin='http://localhost:5555')
 def post_signup():
     form = RegisterForm(request.form)
     if form.is_vailid():
@@ -63,6 +70,7 @@ def delete_old_sessions():
     old_sessions = DBSession.objects.filter(expiration__lte=datetime.now())
     old_sessions.delete()
     return redirect(url_for('index'))
+
 
 @app.route('/classifieds', methods=['GET'])
 def get_classifieds():

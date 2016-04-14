@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {FORM_DIRECTIVES, CORE_DIRECTIVES} from 'angular2/common';
-import {Headers, HTTP_PROVIDERS, Http} from 'angular2/http';
+import {Headers, Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
 import {Router} from 'angular2/router';
 
@@ -11,7 +11,7 @@ import {Router} from 'angular2/router';
   templateUrl: './components/login/login.html',
   styleUrls: ['./components/login/login.css'],
   directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
-  providers: [HTTP_PROVIDERS]
+  providers: []
 })
 export class LoginCmp {
 
@@ -48,6 +48,7 @@ export class LoginCmp {
   }
 
   login() {
+    this.error = '';
     if (this.validate()) {
       var body = 'username=' + this.data['username'] + '&password=' + this.data['password'];
       var headers = new Headers();
