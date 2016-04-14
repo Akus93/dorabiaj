@@ -73,6 +73,7 @@ def delete_old_sessions():
 
 
 @app.route('/classifieds', methods=['GET'])
+@crossdomain(origin='http://localhost:5555')
 def get_classifieds():
     try:
         classifieds = Classified.objects.get()
@@ -81,7 +82,9 @@ def get_classifieds():
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
 
+
 @app.route('/classified', methods=['POST'])
+@crossdomain(origin='http://localhost:5555')
 def post_classified():
     form = ClassifiedForm(request.form)
     if form.is_vailid():
