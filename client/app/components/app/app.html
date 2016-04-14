@@ -3,7 +3,7 @@
     <nav class="md-toolbar-tools">
       <button md-button alt="Home" class="md-icon-button" [routerLink]="['/Home']"><i class="" md-icon>home</i></button>
       <h1 flex class="link" [routerLink]="['/Home']">Dorabiaj.pl</h1>
-      <button md-button [routerLink]="['/AddClassified']">Add Classified</button>
+      <span [hidden]="checkLogin()==false"><button md-button [routerLink]="['/AddClassified']">Add Classified</button></span>
       <span [hidden]="checkLogin()"><button md-button  [routerLink]="['/Login']">Login</button></span>
       <span [hidden]="checkLogin()"><button md-button [routerLink]="['/Registration']">Registration</button></span>
       <span [hidden]="checkLogin()==false"><button md-button (click)="logout()">Logout</button></span>

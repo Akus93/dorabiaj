@@ -16,12 +16,12 @@ export class AddClassifiedCmp {
     title: '',
     description: '',
     budget: '',
-    province: '',
-    city: '',
-    category: '',
-    begin_date: '',
-    end_date: '',
-    phone: ''
+    // province: '',
+    city: ''
+    // category: '',
+    // begin_date: '',
+    // end_date: '',
+    // phone: ''
   };
 
   public categories = ['Dom', 'Ogród',
@@ -36,10 +36,11 @@ export class AddClassifiedCmp {
   constructor(public http: Http, private router: Router) { }
 
   save() {
-    var body = 'title=' + this.classified.title + '&description=' + this.classified.description + '&budget=' +
-      this.classified.budget + '&province=' + this.classified.province + '&city=' + this.classified.city + '&category=' +
-      this.classified.category + '&begin_date=' + this.classified.begin_date + '&end_date=' + this.classified.end_date
-      + '&phone=' + this.classified.phone;
+    var body = 'title=' + this.classified.title + '&description=' + this.classified.description + '&budget='
+      + this.classified.budget + '&city=' + this.classified.city;
+      // this.classified.budget + '&province=' + this.classified.province + '&city=' + this.classified.city + '&category=' +
+      // this.classified.category + '&begin_date=' + this.classified.begin_date + '&end_date=' + this.classified.end_date
+      // + '&phone=' + this.classified.phone;
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
