@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash
 
 from . import app
 from .models import User, DBSession, Classified
-from .functions import is_authorized, get_user, login_required, crossdomain
+from .functions import is_authorized, get_user, login_required, crossdomain, admin_required
 from .forms import RegisterForm, ClassifiedForm
 
 
@@ -24,7 +24,6 @@ def get_login():
 @app.route('/login', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
 def post_login():
-    req = request
     username = request.form['username']
     password = request.form['password']
     try:
@@ -77,7 +76,7 @@ def delete_old_sessions():
 @crossdomain(origin='http://localhost:5555')
 def get_classifieds():
     try:
-        classifieds = Classified.objects.all()
+        classifieds = Classified.objects.all().order_by('-created_at')
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszen'}
         return Response(json.dumps(error), status=200, content_type='application/json')
@@ -86,6 +85,7 @@ def get_classifieds():
 
 @app.route('/classified', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
+@login_required
 def post_classified():
     form = ClassifiedForm(request.form)
     if form.is_vailid():
@@ -95,3 +95,10 @@ def post_classified():
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
 
+
+@app.route('/admin', methods=['GET'])
+@crossdomain(origin='http://localhost:5555')
+@login_required
+@admin_required
+def admin():
+    pass

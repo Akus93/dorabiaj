@@ -1,10 +1,10 @@
-from flask import session
+from flask import session, Response
 from .models import User
 from functools import wraps
-from flask import redirect, url_for
 from datetime import timedelta
 from flask import make_response, request, current_app
 from functools import update_wrapper
+from json import dumps
 
 
 def login_required(f):
@@ -16,7 +16,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not is_authorized():
-            return redirect(url_for('get_login'))
+            return Response(dumps({'error': 'Musisz być zalogowany'}), status=200, content_type='application/json')
         return f(*args, **kwargs)
     return decorated_function
 
@@ -34,6 +34,12 @@ def is_authorized():
     :return bool
     """
     return True if 'user' in session else False
+
+
+def is_admin():
+    if User.objects.get_or_404(pk=session['user']).is_superuser:
+        return True
+    return False
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):
@@ -74,3 +80,12 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
         f.provide_automatic_options = False
         return update_wrapper(wrapped_function, f)
     return decorator
+
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not is_admin():
+            return Response(dumps({'error': 'Nie masz uprawnień'}), status=200, content_type='application/json')
+        return f(*args, **kwargs)
+    return decorated_function

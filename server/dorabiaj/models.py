@@ -67,6 +67,7 @@ class Classified(db.Document):
     description = db.StringField()
     budget = db.StringField()
     city = db.StringField()
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
 
 """
 class Classified(db.Document):
