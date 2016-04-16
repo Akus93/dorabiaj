@@ -4,46 +4,46 @@
     <form name="signupForm" (submit)="signup()">
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Username </label>
+          <label>Nazwa użytkownika</label>
           <span [hidden]="error['username']==false">{{error['username']}}</span>
-          <input md-input id="username" [(ngModel)]="user['username']">
+          <input md-input id="username" [(ngModel)]="user['username']" required>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Email </label>
+          <label>Email</label>
           <span [hidden]="error['email']==false">{{error['email']}}</span>
-          <input md-input id="email" [(ngModel)]="user['email']" type="email">
+          <input md-input id="email" [(ngModel)]="user['email']" type="email" required>
         </md-input-container>
       </div>
         <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Hasło </label>
+          <label>Hasło</label>
           <span [hidden]="error['password']==false">{{error['password']}}</span>
-          <input md-input id="password" [(ngModel)]="user['password']" type="password">
+          <input md-input id="password" [(ngModel)]="user['password']" type="password" required>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Powtórz hasło </label>
+          <label>Powtórz hasło</label>
           <span [hidden]="error['password2']==false">{{error['password2']}}</span>
-          <input md-input id="password2" [(ngModel)]="user['password2']" type="password">
+          <input md-input id="password2" [(ngModel)]="user['password2']" type="password" required>
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Imię </label>
+          <label>Imię</label>
           <span [hidden]="error['first_name']==false">{{error['first_name']}}</span>
-          <input md-input id="first_name" [(ngModel)]="user['first_name']">
+          <input md-input id="first_name" [(ngModel)]="user['first_name']" required>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Nazwisko </label>
+          <label>Nazwisko</label>
           <span [hidden]="error['last_name']==false">{{error['last_name']}}</span>
-          <input md-input id="last_name" [(ngModel)]="user['last_name']">
+          <input md-input id="last_name" [(ngModel)]="user['last_name']" required>
         </md-input-container>
       </div>
       <md-input-container class="md-block">
-        <label>Miasto </label>
+        <label>Miejscowość</label>
         <span [hidden]="error['city']==false">{{error['city']}}</span>
-        <input md-input id="city" [(ngModel)]="user['city']" value="">
+        <input md-input id="city" [(ngModel)]="user['city']" value="" required>
       </md-input-container>
-      <button md-button type="submit">Zarejestruj</button>
+      <button md-raised-button class="md-raised md-primary" type="submit">Zarejestruj</button>
     </form>
   </div>
 </md-content>

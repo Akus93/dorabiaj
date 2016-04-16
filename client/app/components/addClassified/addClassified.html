@@ -4,56 +4,56 @@
     <form name="userForm" (submit)="save()">
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Title</label>
+          <label>Tytuł</label>
           <input md-input [(ngModel)]="classified.title" required>
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Description</label>
+          <label>Opis</label>
           <textarea md-input [(ngModel)]="classified.description" required columns="2" md-maxlength="300" rows="5"></textarea>
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <select [(ngModel)]="classified.category" required>
+          <select [(ngModel)]="classified.category" required id="test">
             <option *ngFor="#category of categories" [(value)]="category.abbrev">
               {{category.abbrev}}
             </option>
           </select>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Budget</label>
+          <label>Budżet</label>
           <input md-input [(ngModel)]="classified.budget" required>
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Province</label>
+          <label>Województwo</label>
           <input md-input [(ngModel)]="classified.province" required>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <label>City</label>
+          <label>Miejscowość</label>
           <input md-input [(ngModel)]="classified.city" required>
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Begin date</label>
+          <label>Data rozpoczęcia</label>
           <input md-input [(ngModel)]="classified.begin_date" required>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <label>End date</label>
+          <label>Data zakończenia</label>
           <input md-input [(ngModel)]="classified.end_date" required>
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Phone</label>
+          <label>Numer telefonu</label>
           <input md-input [(ngModel)]="classified.phone" required mdPattern="^[0-9]{9}$" mdMaxLength="9">
         </md-input-container>
-        <button md-raised-button class="md-raised md-primary" type="submit">Save</button>
       </div>
+      <button md-raised-button class="md-raised md-primary" type="submit">Dodaj</button>
     </form>
 </md-content>
 </div>

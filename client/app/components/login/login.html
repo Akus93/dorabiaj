@@ -4,15 +4,15 @@
     <span [hidden]="error==false">{{error}}</span><br><br>
     <div layout-gt-sm="row">
       <md-input-container class="md-block" flex-gt-sm>
-        <label>Username</label>
-        <input md-input id="username" [(ngModel)]="data['username']">
+        <label>Nazwa użytkownika</label>
+        <input md-input id="username" [(ngModel)]="data['username']" required>
       </md-input-container>
       <md-input-container class="md-block" flex-gt-sm>
-        <label>Password</label>
-        <input md-input id="password" [(ngModel)]="data['password']" type="password">
+        <label>Hasło</label>
+        <input md-input id="password" [(ngModel)]="data['password']" type="password" required>
       </md-input-container>
     </div>
 
-    <button md-button type="submit">Zaloguj</button>
+    <button md-raised-button class="md-raised md-primary" type="submit">Zaloguj</button>
   </form>
 </md-content>
