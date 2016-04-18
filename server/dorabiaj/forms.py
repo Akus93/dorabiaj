@@ -188,7 +188,7 @@ class RegisterForm(ModelForm):
 
 class ClassifiedForm(ModelForm):
     model = Classified
-    fields = ['title', 'description','budget','city']
+    fields = ['title', 'description','budget','province','city','category']
 
 """
 class ClassifiedForm(ModelForm):
