@@ -71,16 +71,33 @@ def delete_old_sessions():
     old_sessions.delete()
     return redirect(url_for('index'))
 
-
 @app.route('/classifieds', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
-def get_classifieds():
+def get_classifieds(id=None):
     try:
         classifieds = Classified.objects.all().order_by('-created_at')
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszen'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
+
+@app.route('/classifieds/<id>', methods=['GET','DELETE'])
+@crossdomain(origin='http://localhost:5555')
+def get_classified(id):
+    if request.method == 'GET':
+        try:
+            classified = Classified.objects.get(id=id)
+        except Classified.DoesNotExist:
+            error = {'errror': 'Brak ogloszenia'}
+            return Response(json.dumps(error), status=200, content_type='application/json')
+        return Response(classified.to_json(), status=200, content_type='application/json')
+    if request.method == 'DELETE':
+        try:
+            Classified.objects.get(id=id).delete()
+        except Classified.DoesNotExist:
+            pass
+        return Response(json.dumps({'success': True}), content_type='application/json')
+
 
 
 @app.route('/classified', methods=['POST'])
