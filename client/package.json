@@ -1,9 +1,9 @@
 {
-  "name": "angular2-seed",
+  "name": "Dorabiaj.pl",
   "version": "0.0.0",
-  "description": "Seed for Angular 2 apps",
+  "description": "Dorabiaj sobie, a co tam!",
   "repository": {
-    "url": "https://github.com/mgechev/angular2-seed"
+    "url": "https://github.com/Akus93/dorabiaj"
   },
   "scripts": {
     "build.dev": "gulp build.dev",
@@ -24,7 +24,7 @@
     "test": "gulp test",
     "tsd": "tsd"
   },
-  "author": "Minko Gechev <mgechev>",
+  "author": "Zespół 2",
   "license": "MIT",
   "devDependencies": {
     "async": "^1.4.2",
