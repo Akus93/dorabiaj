@@ -1,6 +1,5 @@
 import datetime
 from dorabiaj import db
-import dateutil.parser
 
 
 
@@ -65,18 +64,6 @@ class Offer(db.EmbeddedDocument):
 
 class Classified(db.Document):
     title = db.StringField(required=True, max_length=32, min_length=4)
-    description = db.StringField(required=True, max_length=1024, min_length=16)
-    budget = db.StringField()
-    province = db.StringField(required=True, max_length=32)
-    city = db.StringField(required=True, max_length=64)
-    category = db.StringField(required=True, max_length=128)
-    begin_date = db.DateTimeField(required=True, default=dateutil.parser.parse('2016-04-18T19:17:08.577Z'))
-    end_date = db.DateTimeField(required=True, default=dateutil.parser.parse('2016-04-20T19:17:08.577Z'))
-    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
-
-"""
-class Classified(db.Document):
-    title = db.StringField(required=True, max_length=32, min_length=4)
     owner = db.ReferenceField(User)
     owner_nick = db.StringField()
     description = db.StringField(required=True, max_length=1024, min_length=16)
@@ -84,11 +71,25 @@ class Classified(db.Document):
     province = db.StringField(required=True, max_length=32)
     city = db.StringField(required=True, max_length=64)
     category = db.StringField(required=True, max_length=128)
-    begin_date = db.DateTimeField(required=False)
-    end_date = db.DateTimeField(required=False)
+    begin_date = db.DateTimeField(required=True)
+    end_date = db.DateTimeField(required=True)
     offers = db.ListField(db.EmbeddedDocumentField(Offer))
     phone = db.StringField()
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+
+"""
+poprzednia dzialajaca wersja
+class Classified(db.Document):
+    title = db.StringField(required=True, max_length=32, min_length=4)
+    description = db.StringField(required=True, max_length=1024, min_length=16)
+    budget = db.FloatField()
+    province = db.StringField(required=True, max_length=32)
+    city = db.StringField(required=True, max_length=64)
+    category = db.StringField(required=True, max_length=128)
+    begin_date = db.DateTimeField(required=True, default=dateutil.parser.parse('2016-04-18T19:17:08.577Z'))
+    end_date = db.DateTimeField(required=True, default=dateutil.parser.parse('2016-04-20T19:17:08.577Z'))
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+
 """
 
 

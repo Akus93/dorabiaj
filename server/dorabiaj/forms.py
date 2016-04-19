@@ -1,4 +1,4 @@
-from .models import User, Classified
+from .models import User, Classified, Category
 from re import match as re_match
 from string import ascii_letters, digits
 from werkzeug.security import generate_password_hash
@@ -191,7 +191,8 @@ class RegisterForm(ModelForm):
 
 class ClassifiedForm(ModelForm):
     model = Classified
-    fields = ['title', 'description','budget','province','city','category']
+    fields = ['title', 'description', 'budget', 'province', 'city', 'category',
+              'begin_date', 'end_date', 'phone']
 
 """
 class ClassifiedForm(ModelForm):
@@ -199,3 +200,8 @@ class ClassifiedForm(ModelForm):
     fields = ['title', 'description', 'budget', 'province', 'city', 'category',
               'begin_date', 'end_date', 'phone']
 """
+
+
+class CategoryForm(ModelForm):
+    model = Category
+    fields = ['name']
