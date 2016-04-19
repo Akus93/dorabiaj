@@ -3,9 +3,9 @@ from datetime import datetime
 from werkzeug.security import check_password_hash
 
 from . import app
-from .models import User, DBSession, Classified
+from .models import User, DBSession, Classified, Category
 from .functions import is_authorized, get_user, login_required, crossdomain, admin_required
-from .forms import RegisterForm, ClassifiedForm
+from .forms import RegisterForm, ClassifiedForm, CategoryForm
 
 
 @app.route('/')
@@ -102,3 +102,27 @@ def post_classified():
 @admin_required
 def admin():
     pass
+
+@app.route('/categories', methods=['GET'])
+@crossdomain(origin="http://localhost:5555")
+def get_categories():
+    try:
+        categories = Category.objects.all()
+    except Classified.DoesNotExist:
+        error = {'error': 'Brak ogloszen'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    return Response(categories.to_json(), status=200, content_type='application/json')
+
+'''
+gdy chcemy dodać kategorie
+@app.route('/category', methods=['POST'])
+@crossdomain(origin='http://localhost:5555')
+def post_cattegory():
+    form = CategoryForm(request.form)
+    if form.is_vailid():
+        form.save()
+        return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+    else:
+        error = form.get_errors()
+        return Response(json.dumps(error), status=200, content_type='application/json')
+'''
