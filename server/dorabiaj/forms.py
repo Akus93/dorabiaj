@@ -146,7 +146,10 @@ class ModelForm:
         self.set_additional_properties()
         for field in self.fields:
             for _property in self.properties:
-                prop = getattr(getattr(self.model, field), _property)
+                try:
+                    prop = getattr(getattr(self.model, field), _property)
+                except AttributeError:
+                    prop = None
                 if prop:
                     getattr(self, _property)[field] = prop
 
