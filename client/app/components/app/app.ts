@@ -3,7 +3,6 @@ import {
   RouteConfig,
   ROUTER_DIRECTIVES
 } from 'angular2/router';
-// import {HTTP_PROVIDERS} from 'angular2/http';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 
 import {HomeCmp} from '../home/home';
@@ -12,11 +11,8 @@ import {RegistrationCmp} from '../registration/registration';
 import {AddClassifiedCmp} from '../addClassified/addClassified';
 
 
-import {PeopleList} from '../../services/people_list';
-
 @Component({
   selector: 'app',
-  viewProviders: [PeopleList],
   templateUrl: './components/app/app.html',
   styleUrls: ['./components/app/app.css'],
   encapsulation: ViewEncapsulation.None,
