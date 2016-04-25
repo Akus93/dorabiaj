@@ -191,8 +191,9 @@ class RegisterForm(ModelForm):
 
 class ClassifiedForm(ModelForm):
     model = Classified
-    fields = ['_id','title', 'description', 'budget', 'province', 'city', 'category',
+    fields = ['_id', 'title', 'description', 'budget', 'province', 'city', 'category',
               'begin_date', 'end_date', 'phone']
+
 
 class CategoryForm(ModelForm):
     model = Category

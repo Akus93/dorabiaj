@@ -71,6 +71,7 @@ def delete_old_sessions():
     old_sessions.delete()
     return redirect(url_for('index'))
 
+
 @app.route('/classifieds', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
 def get_classifieds(id=None):
@@ -81,7 +82,8 @@ def get_classifieds(id=None):
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
 
-@app.route('/classifieds/<id>', methods=['GET','DELETE'])
+
+@app.route('/classifieds/<id>', methods=['GET', 'DELETE'])
 @crossdomain(origin='http://localhost:5555')
 def get_classified(id):
     if request.method == 'GET':
@@ -97,7 +99,6 @@ def get_classified(id):
         except Classified.DoesNotExist:
             pass
         return Response(json.dumps({'success': True}), content_type='application/json')
-
 
 
 @app.route('/classified', methods=['POST'])
@@ -119,6 +120,20 @@ def post_classified():
 @admin_required
 def admin():
     pass
+
+
+@app.route('/user/<username>', methods=['GET'])
+@crossdomain(origin='http://localhost:5555')
+def get_user(username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        error = {'error': 'Nie ma takiego użytkownika'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    user_info = {'username': user.username, 'email': user.email, 'firstName': user.first_name,
+                 'lastName': user.last_name, 'city': user.city, 'admin': user.is_superuser, 'tokens': user.tokens}
+    return Response(json.dumps(user_info), status=200, content_type='application/json')
+
 
 @app.route('/categories', methods=['GET'])
 @crossdomain(origin="http://localhost:5555")

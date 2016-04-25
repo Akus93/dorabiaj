@@ -9,6 +9,7 @@ import {HomeCmp} from '../home/home';
 import {LoginCmp} from '../login/login';
 import {RegistrationCmp} from '../registration/registration';
 import {AddClassifiedCmp} from '../addClassified/addClassified';
+import {UserInfoCmp} from '../user-info/user_info';
 
 
 @Component({
@@ -22,7 +23,8 @@ import {AddClassifiedCmp} from '../addClassified/addClassified';
   { path: '/', component: HomeCmp, as: 'Home' },
   { path: '/add-classified', component: AddClassifiedCmp, as: 'AddClassified' },
   { path: '/login', component: LoginCmp, as: 'Login' },
-  { path: '/registration', component: RegistrationCmp, as: 'Registration' }
+  { path: '/registration', component: RegistrationCmp, as: 'Registration' },
+  { path: '/user/:username', component: UserInfoCmp, name: 'UserInfoCmp'}
 
 ])
 export class AppCmp {
