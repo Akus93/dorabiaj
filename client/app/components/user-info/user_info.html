@@ -9,7 +9,12 @@
 <p>Zainteresowania: {{user.interests}}</p>
 
 <p>Opinie:</p>
-<div *ngFor="#opinion of user.opinions; #i = index" >
-  <p>{{i+1}}: {{opinion.description}}</p>
+<div *ngFor="#opinion of user.opinions; #i = index">
+  <div class="opinion" style="border: black solid 1px;">
+    <p>Treść: {{opinion.description}}</p>
+    <p>Ocena: {{opinion.rank}}</p>
+    <p>Autor: <a [routerLink]="['UserInfo', { username: opinion.owner_nick}]">{{opinion.owner_nick}}</a></p>
+  </div>
 </div>
+
 <div *ngIf="user.admin"><p>Administrator!</p></div>

@@ -24,7 +24,7 @@ import {UserInfoCmp} from '../user-info/user_info';
   { path: '/add-classified', component: AddClassifiedCmp, as: 'AddClassified' },
   { path: '/login', component: LoginCmp, as: 'Login' },
   { path: '/registration', component: RegistrationCmp, as: 'Registration' },
-  { path: '/user/:username', component: UserInfoCmp, name: 'UserInfoCmp'}
+  { path: '/user/:username', component: UserInfoCmp, name: 'UserInfo'}
 
 ])
 export class AppCmp {
