@@ -5,6 +5,8 @@ import {UserService} from '../../services/user.service';
 import {RouteParams} from 'angular2/router';
 import {Router} from 'angular2/router';
 
+import {User} from '../../services/user';
+
 
 @Component({
   selector: 'user-info',
@@ -15,16 +17,12 @@ import {Router} from 'angular2/router';
 })
 export class UserInfoCmp implements OnInit {
 
-  public username: string;
-  public email :string;
-  public firstName :string;
-  public lastName :string;
-  public city :string;
-  public tokens :string;
-  public admin :boolean;
+  public user :User;
+  private username :string;
 
   constructor(private _userService: UserService, private params: RouteParams, private router: Router) {
     this.username = params.get('username');
+    this.user = new User();
   }
 
   ngOnInit() {
@@ -42,8 +40,7 @@ export class UserInfoCmp implements OnInit {
       if (res.hasOwnProperty('error')) {
         this.router.navigate(['Home']);
       } else {
-        for (var prop in res)
-          this[prop] = res[prop];
+        this.user = res;
       }
     }
 

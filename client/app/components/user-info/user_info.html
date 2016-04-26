@@ -1,9 +1,10 @@
 <h1 class="md-headline">Informacje o użytkowniku</h1>
-<p>Nazwa użytkownika: {{username}}</p>
-<p>Email: {{email}}</p>
-<p>Imię: {{firstName}}</p>
-<p>Nazwisko: {{lastName}}</p>
-<p>Miasto: {{city}}</p>
-<p>Tokeny: {{tokens}}</p>
 
-<div *ngIf="admin"><p>Administrator!</p></div>
+<p>Nazwa użytkownika: {{user.username}}</p>
+<p>Email: {{user.email}}</p>
+<p>Imię: {{user.firstName}}</p>
+<p>Nazwisko: {{user.lastName}}</p>
+<p>Miasto: {{user.city}}</p>
+<p>Tokeny: {{user.tokens}}</p>
+
+<div *ngIf="user.admin"><p>Administrator!</p></div>

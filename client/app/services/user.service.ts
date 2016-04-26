@@ -3,6 +3,9 @@ import {Http, Response} from 'angular2/http';
 import {Observable}     from 'rxjs/Observable';
 import 'rxjs/Rx';
 
+import {User} from './user';
+
+
 @Injectable()
 export class UserService {
 
@@ -11,7 +14,7 @@ export class UserService {
   private _userUrl = 'http://localhost:5000/user/';
 
 
-  getUser(username :string): Observable<JSON> {
+  getUser(username :string): Observable<User> {
     return this.http.get(this._userUrl + username)
                     .map(this.extractData)
                     .catch(this.handleError);
