@@ -2,7 +2,6 @@ import datetime
 from dorabiaj import db
 
 
-
 class DBSession(db.Document):
     sid = db.StringField(primary_key=True)
     data = db.DictField()

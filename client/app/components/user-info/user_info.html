@@ -6,5 +6,10 @@
 <p>Nazwisko: {{user.lastName}}</p>
 <p>Miasto: {{user.city}}</p>
 <p>Tokeny: {{user.tokens}}</p>
+<p>Zainteresowania: {{user.interests}}</p>
 
+<p>Opinie:</p>
+<div *ngFor="#opinion of user.opinions; #i = index" >
+  <p>{{i+1}}: {{opinion.description}}</p>
+</div>
 <div *ngIf="user.admin"><p>Administrator!</p></div>
