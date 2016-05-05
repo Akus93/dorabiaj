@@ -102,7 +102,7 @@ def delete_classified(id):
         pass
     return Response(json.dumps({'success': True}), content_type='application/json')
 
-#not working correctly yet
+
 @app.route('/classified/<id>', methods=['GET', 'PUT'])
 @crossdomain(origin='http://localhost:5555')
 def update_classified(id):
@@ -111,27 +111,39 @@ def update_classified(id):
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszenia'}
         return Response(json.dumps(error), status=200, content_type='application/json')
+    #walidacja formularza edycji
+    form = ClassifiedForm(request.form)
+    if form.is_vailid():
+        try:
+            classified.title = form.data['title']
+            classified.description = form.data['description']
+            classified.budget = float(form.data['budget'])
+            classified.province = form.data['province']
+            classified.city = form.data['city']
+            classified.category = form.data['category']
+            classified.begin_date = form.data['begin_date']
+            classified.end_date = form.data['end_date']
+            classified.phone = form.data['phone']
+            classified.save()
+        except:
+            error = {'error': 'Edycja nie powiodla sie'}
+            return Response(json.dumps(error), status=200, content_type='application/json')
 
-    return Response(json.dumps({'success': True}), content_type='application/json')
+        return Response(json.dumps({'success': True}), content_type='application/json')
 
-    classified.title = request.form['title']
-    classified.description = request.form['description']
-    classified.phone = request.form['phone']
-    classified.province = request.form['province']
-    classified.city = request.form['city']
-    classified.begin_date = request.form['begin_date']
-    classified.end_date = request.form['end_date']
-    classified.category = request.form['category']
-    classified.save()
+    else:
+        error = {'error': 'Blednie wypelniony formularz'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
 
-    return Response(json.dumps(error), status=200, content_type='application/json')
 
 @app.route('/classified', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
-#@login_required
+@login_required
 def post_classified():
     form = ClassifiedForm(request.form)
     if form.is_vailid():
+        #form.owner = session['user']
+        #print(session['user'])
         form.save()
         return Response(json.dumps({'success': True}), status=200, content_type='application/json')
     else:
