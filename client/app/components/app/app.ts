@@ -10,6 +10,7 @@ import {LoginCmp} from '../login/login';
 import {RegistrationCmp} from '../registration/registration';
 import {AddClassifiedCmp} from '../addClassified/addClassified';
 import {UserInfoCmp} from '../user-info/user_info';
+import {SearchCmp} from "../search/search";
 
 
 @Component({
@@ -24,7 +25,8 @@ import {UserInfoCmp} from '../user-info/user_info';
   { path: '/add-classified', component: AddClassifiedCmp, as: 'AddClassified' },
   { path: '/login', component: LoginCmp, as: 'Login' },
   { path: '/registration', component: RegistrationCmp, as: 'Registration' },
-  { path: '/user/:username', component: UserInfoCmp, name: 'UserInfo'}
+  { path: '/user/:username', component: UserInfoCmp, name: 'UserInfo'},
+  { path: '/search/:city/:category', component: SearchCmp, name: 'Search'}
 
 ])
 export class AppCmp {

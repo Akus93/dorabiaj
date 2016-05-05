@@ -14,7 +14,7 @@ export class User {
   }
 }
 
-class Opinion {
+export class Opinion {
   owner_nick :string;
   description :string;
   rank :string;

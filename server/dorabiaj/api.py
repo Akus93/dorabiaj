@@ -182,6 +182,17 @@ def get_categories():
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(categories.to_json(), status=200, content_type='application/json')
 
+
+@app.route('/search/<city>/<category>', methods=['GET'])
+@crossdomain(origin="http://localhost:5555")
+def search(city, category):
+    try:
+        results = Classified.objects.filter(city=city, category=category)
+    except Classified.DoesNotExist:
+        error = {'error': 'Brak ogloszen'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    return Response(results.to_json(), status=200, content_type='application/json')
+
 '''
 gdy chcemy dodać kategorie
 @app.route('/category', methods=['POST'])
