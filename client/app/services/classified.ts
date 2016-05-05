@@ -3,6 +3,7 @@ export class Classified {
     $oid: string;
   };
   title: string;
+  owner_nick: string;
   description: string;
   budget: string;
   province: string;
@@ -10,6 +11,13 @@ export class Classified {
   category: string;
   begin_date: string;
   end_date: string;
-  offers: string[];
   phone: string;
+  offers: Offer[];
+}
+
+export class Offer {
+  owner_nick: string;
+  price: number;
+  is_accepted: boolean;
+  created_at: string;
 }

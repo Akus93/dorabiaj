@@ -13,7 +13,7 @@ import {Classified} from '../../services/classified';
 export class MyClassifiedsCmp {
   public classifieds;
   constructor(http: Http, private router: Router) {
-    http.get('http://localhost:5000/classifieds')
+    http.get('http://localhost:5000/myclassifieds')
       // Call map on the response observable to get the parsed people object
       .map(res => res.json())
       // Subscribe to the observable to get the parsed people object and attach it to the

@@ -27,7 +27,6 @@ export class UserInfoCmp implements OnInit {
 
   ngOnInit() {
     this.getUser(this.username);
-
   }
 
   getUser(username :string) {
