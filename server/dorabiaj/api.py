@@ -1,5 +1,7 @@
 from flask import session, request, Response, redirect, url_for, render_template, json
 from datetime import datetime
+
+from werkzeug.datastructures import MultiDict, ImmutableMultiDict
 from werkzeug.security import check_password_hash
 
 from . import app
@@ -139,10 +141,12 @@ def update_classified(id):
 @crossdomain(origin='http://localhost:5555')
 @login_required
 def post_classified():
-    form = ClassifiedForm(request.form)
+    IMD = request.form
+    MD = MultiDict(IMD)
+    MD.add('owner_nick',str(session['user']))
+    IMD_request = ImmutableMultiDict(MD)
+    form = ClassifiedForm(IMD_request)
     if form.is_vailid():
-        #form.owner = session['user']
-        #print(session['user'])
         form.save()
         return Response(json.dumps({'success': True}), status=200, content_type='application/json')
     else:
