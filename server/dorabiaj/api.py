@@ -154,12 +154,15 @@ def post_classified():
         return Response(json.dumps(error), status=200, content_type='application/json')
 
 @app.route('/myclassifieds', methods=['GET'])
-@crossdomain(origin='http://localhost:5555')
 @login_required
+@crossdomain(origin='http://localhost:5555')
 def get_my_classifieds():
     try:
-        classifieds = Classified.objects.filter(owner_nick=str(session['user']))
-        #classifieds = Classified.objects.filter(owner_nick='571788ae3b16c9501c579336')
+        classifieds = Classified.objects.filter(owner_nick='571788ae3b16c9501c579336')
+        print(session)
+        #classifieds = Classified.objects.filter(owner_nick=str(session['user']))
+        #classifieds = Classified.objects.all().order_by('-created_at')
+        # print(classifieds)
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszenia'}
         return Response(json.dumps(error), status=200, content_type='application/json')
