@@ -7,12 +7,11 @@ export class User {
     tokens: string;
     admin: boolean;
     interests: string[];
-    opinions :Opinion[];  
-  
+    opinions: Opinion[];
+
   getFullName() {
     return this.firstName + ' ' + this.lastName;
   }
-
 }
 
 class Opinion {

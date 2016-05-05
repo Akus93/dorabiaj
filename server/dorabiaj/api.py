@@ -82,7 +82,6 @@ def get_classifieds(id=None):
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
 
-
 @app.route('/classified/<id>', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
 def get_classified(id):

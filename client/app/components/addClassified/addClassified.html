@@ -1,4 +1,7 @@
 <div layout="column">
+  <li *ngFor="#category of categories2">
+    <span class="badge">{{category.name}}</span> {{hero.name}}
+  </li>
 <h1 class="md-headline">Dodaj nowe ogłoszenie</h1>
 <md-content layout-padding>
     <form name="userForm" (submit)="save()">
