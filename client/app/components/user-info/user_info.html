@@ -1,20 +1,24 @@
-<h1 class="md-headline">Informacje o użytkowniku</h1>
+<div>
+    <h2>{{user.firstName}} {{user.lastName}}</h2>
+    <h4>{{user.username}}</h4>
+    <md-divider></md-divider>
+    <div layout="row" layout-wrap>
+      <h5 flex="50">Miasto: {{user.city}}</h5>
+      <h5 flex="50">Email: {{user.email}}</h5>
+    </div>
+    <h5>Zainteresowania: {{user.interests}}</h5>
 
-<p>Nazwa użytkownika: {{user.username}}</p>
-<p>Email: {{user.email}}</p>
-<p>Imię: {{user.firstName}}</p>
-<p>Nazwisko: {{user.lastName}}</p>
-<p>Miasto: {{user.city}}</p>
-<p>Tokeny: {{user.tokens}}</p>
-<p>Zainteresowania: {{user.interests}}</p>
-
-<p>Opinie:</p>
-<div *ngFor="#opinion of user.opinions; #i = index">
-  <div class="opinion" style="border: black solid 1px;">
-    <p>Treść: {{opinion.description}}</p>
-    <p>Ocena: {{opinion.rank}}</p>
-    <p>Autor: <a [routerLink]="['UserInfo', { username: opinion.owner_nick}]">{{opinion.owner_nick}}</a></p>
-  </div>
+    <md-list>
+      <md-subheader class="md-no-sticky">Opinie:</md-subheader>
+      <md-list-item *ngFor="#opinion of user.opinions; #i = index">
+        <div>
+          <h3><a [routerLink]="['UserInfo', { username: opinion.owner_nick}]">{{opinion.owner_nick}}</a></h3>
+          <p>{{opinion.description}}</p>
+        </div>
+        <div class="rating">{{opinion.rank}}</div>
+        <md-divider></md-divider>
+      </md-list-item>
+   </md-list>
 </div>
 
-<div *ngIf="user.admin"><p>Administrator!</p></div>
+
