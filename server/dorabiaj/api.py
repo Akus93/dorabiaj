@@ -40,7 +40,7 @@ def post_login():
     return Response(user.to_json(), status=200, content_type='application/json')
 
 
-@app.route('/logout', methods=['GET', 'DELETE'])
+@app.route('/logout', methods=['DELETE'])
 @crossdomain(origin='http://localhost:5555')
 def logout():
     try:
@@ -104,7 +104,7 @@ def delete_classified(id):
     return Response(json.dumps({'success': True}), content_type='application/json')
 
 
-@app.route('/classified/<id>', methods=['GET', 'PUT'])
+@app.route('/classified/<id>', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')
 def update_classified(id):
     try:
@@ -153,6 +153,17 @@ def post_classified():
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
 
+@app.route('/myclassifieds', methods=['GET'])
+@crossdomain(origin='http://localhost:5555')
+@login_required
+def get_my_classifieds():
+    try:
+        classifieds = Classified.objects.filter(owner_nick=str(session['user']))
+        #classifieds = Classified.objects.filter(owner_nick='571788ae3b16c9501c579336')
+    except Classified.DoesNotExist:
+        error = {'error': 'Brak ogloszenia'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    return Response(classifieds.to_json(), status=200, content_type='application/json')
 
 @app.route('/admin', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
