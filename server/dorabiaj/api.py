@@ -1,5 +1,7 @@
 from flask import session, request, Response, redirect, url_for, render_template, json
 from datetime import datetime
+
+from werkzeug.datastructures import MultiDict, ImmutableMultiDict
 from werkzeug.security import check_password_hash
 
 from . import app
@@ -38,7 +40,7 @@ def post_login():
     return Response(user.to_json(), status=200, content_type='application/json')
 
 
-@app.route('/logout', methods=['GET', 'DELETE'])
+@app.route('/logout', methods=['DELETE'])
 @crossdomain(origin='http://localhost:5555')
 def logout():
     try:
@@ -102,7 +104,7 @@ def delete_classified(id):
     return Response(json.dumps({'success': True}), content_type='application/json')
 
 
-@app.route('/classified/<id>', methods=['GET', 'PUT'])
+@app.route('/classified/<id>', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')
 def update_classified(id):
     try:
@@ -139,16 +141,29 @@ def update_classified(id):
 @crossdomain(origin='http://localhost:5555')
 @login_required
 def post_classified():
-    form = ClassifiedForm(request.form)
+    IMD = request.form
+    MD = MultiDict(IMD)
+    MD.add('owner_nick',str(session['user']))
+    IMD_request = ImmutableMultiDict(MD)
+    form = ClassifiedForm(IMD_request)
     if form.is_vailid():
-        #form.owner = session['user']
-        #print(session['user'])
         form.save()
         return Response(json.dumps({'success': True}), status=200, content_type='application/json')
     else:
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
 
+@app.route('/myclassifieds', methods=['GET'])
+@crossdomain(origin='http://localhost:5555')
+@login_required
+def get_my_classifieds():
+    try:
+        classifieds = Classified.objects.filter(owner_nick=str(session['user']))
+        #classifieds = Classified.objects.filter(owner_nick='571788ae3b16c9501c579336')
+    except Classified.DoesNotExist:
+        error = {'error': 'Brak ogloszenia'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    return Response(classifieds.to_json(), status=200, content_type='application/json')
 
 @app.route('/admin', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
