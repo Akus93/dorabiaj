@@ -11,6 +11,7 @@ import {RegistrationCmp} from '../registration/registration';
 import {AddClassifiedCmp} from '../addClassified/addClassified';
 import {UserInfoCmp} from '../user-info/user_info';
 import {ShowClassifiedCmp} from '../showClassified/showClassified';
+import {MyClassifiedsCmp} from '../myClassifieds/myClassifieds';
 
 
 @Component({
@@ -26,7 +27,8 @@ import {ShowClassifiedCmp} from '../showClassified/showClassified';
   { path: '/login', component: LoginCmp, as: 'Login' },
   { path: '/registration', component: RegistrationCmp, as: 'Registration' },
   { path: '/user/:username', component: UserInfoCmp, name: 'UserInfo'},
-  { path: '/classified/:id', component: ShowClassifiedCmp, as: 'ShowClassified'}
+  { path: '/classified/:id', component: ShowClassifiedCmp, as: 'ShowClassified'},
+  { path: '/my-classifieds', component: MyClassifiedsCmp, as: 'MyClassifieds'}
 
 ])
 export class AppCmp {

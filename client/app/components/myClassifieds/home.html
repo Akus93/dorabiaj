@@ -1,14 +1,10 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
   <div flex="80" layout="column" flex-xs="100">
-    <md-card>
-      <span class="md-subhead">{{ classified.category }}</span>
+    <md-card *ngFor="#classified of classifieds">
       <md-card-header>
         <md-card-header-text>
           <span class="md-title">{{ classified.budget }} PLN</span>
-          <span class="md-subhead">{{ classified.city }}, {{ classified.province }}</span>
-
-          <p>Od: {{ classified.begin_date }}</p>
-          <p>Do: {{ classified.end_date }}</p>
+          <span class="md-subhead">{{ classified.city }}</span>
         </md-card-header-text>
       </md-card-header>
       <md-card-title>
@@ -17,10 +13,11 @@
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <p>{{ classified.description }}</p>
-        <p>Numer telefonu: {{ classified.phone }}</p>
-        <p>Lista chętnych:</p>
+        <p>
+          {{ classified.description }}
+        </p>
       </md-card-content>
+      <button md-raised-button class="md-raised md-primary" (click)="onSelect(classified)">Zobacz więcej</button>
     </md-card>
   </div>
 </md-content>
