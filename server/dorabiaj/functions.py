@@ -89,3 +89,7 @@ def admin_required(f):
             return Response(dumps({'error': 'Nie masz uprawnień'}), status=200, content_type='application/json')
         return f(*args, **kwargs)
     return decorated_function
+
+
+def pl_to_en(word):
+    return word.translate(str.maketrans("ąćęłńóśżźĄĆĘŁŃÓŚŻŹ", "acelnoszzACELNOSZZ"))

@@ -5,7 +5,7 @@ import {RouteParams} from 'angular2/router';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {SearchService} from '../../services/search.service';
-import {Classifield} from '../../services/classifield';
+import {Classified} from '../../services/classified';
 
 
 @Component({
@@ -17,12 +17,13 @@ import {Classifield} from '../../services/classifield';
 })
 export class SearchCmp implements OnInit {
 
-  public results: Classifield[];
+  public results: Classified[];
+  public error: string;
   private _city :string;
   private _category: string;
 
 
-  constructor(private _searchService: SearchService, private params: RouteParams, public router: Router) {
+  constructor(private _searchService: SearchService, private params: RouteParams, private _router: Router) {
     this._city = params.get('city');
     this._category = params.get('category');
   }
@@ -39,7 +40,8 @@ export class SearchCmp implements OnInit {
 
   checkResponse(res) {
       if (res.hasOwnProperty('error')) {
-        this.router.navigate(['Home']);
+        this.error = res.error;
+        //this._router.navigate(['Home']);
       } else {
         this.results = res;
       }

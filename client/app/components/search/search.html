@@ -1,6 +1,6 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
   <div flex="80" layout="column" flex-xs="100">
-    <h1>Wyszukiwarka</h1>
+    <span [hidden]="error==false">{{error}}</span><br><br>
     <md-card *ngFor="#classified of results">
       <md-card-header>
         <md-card-header-text>
