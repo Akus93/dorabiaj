@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash
 
 from . import app
 from .models import User, DBSession, Classified, Category
-from .functions import is_authorized, get_user, login_required, crossdomain, admin_required
+from .functions import is_authorized, get_user, login_required, crossdomain, admin_required, pl_to_en
 from .forms import RegisterForm, ClassifiedForm, CategoryForm
 
 
@@ -84,6 +84,7 @@ def get_classifieds(id=None):
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
 
+
 @app.route('/classified/<id>', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
 def get_classified(id):
@@ -93,6 +94,7 @@ def get_classified(id):
         error = {'error': 'Brak ogloszenia'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classified.to_json(), status=200, content_type='application/json')
+
 
 @app.route('/classified/<id>', methods=['GET', 'DELETE'])
 @crossdomain(origin='http://localhost:5555')
@@ -112,7 +114,7 @@ def update_classified(id):
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszenia'}
         return Response(json.dumps(error), status=200, content_type='application/json')
-    #walidacja formularza edycji
+    # walidacja formularza edycji
     form = ClassifiedForm(request.form)
     if form.is_vailid():
         try:
@@ -153,6 +155,7 @@ def post_classified():
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
 
+
 @app.route('/myclassifieds', methods=['GET'])
 @login_required
 @crossdomain(origin='http://localhost:5555')
@@ -160,13 +163,14 @@ def get_my_classifieds():
     try:
         classifieds = Classified.objects.filter(owner_nick='571788ae3b16c9501c579336')
         print(session)
-        #classifieds = Classified.objects.filter(owner_nick=str(session['user']))
-        #classifieds = Classified.objects.all().order_by('-created_at')
+        # classifieds = Classified.objects.filter(owner_nick=str(session['user']))
+        # classifieds = Classified.objects.all().order_by('-created_at')
         # print(classifieds)
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszenia'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
+
 
 @app.route('/admin', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
@@ -178,7 +182,7 @@ def admin():
 
 @app.route('/user/<username>', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
-def get_user(username):
+def get_userinfo(username):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
@@ -204,10 +208,11 @@ def get_categories():
 @app.route('/search/<city>/<category>', methods=['GET'])
 @crossdomain(origin="http://localhost:5555")
 def search(city, category):
-    try:
-        results = Classified.objects.filter(city=city, category=category)
-    except Classified.DoesNotExist:
-        error = {'error': 'Brak ogloszen'}
+    user = get_user()
+    city = pl_to_en(city)
+    results = Classified.objects.filter(city__iexact=city, category=category)
+    if not results:
+        error = {'error': 'Brak ogloszeń spełniających Twoje kryteria.'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(results.to_json(), status=200, content_type='application/json')
 
