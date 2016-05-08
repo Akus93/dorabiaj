@@ -17,7 +17,7 @@ export class MyClassifiedsCmp implements OnInit{
   public classifieds: Classified[];
   public error: string;
 
-  constructor(http: Http, private router: Router, private _classifiedService: ClassifiedService) {}
+  constructor(private http: Http, private router: Router, private _classifiedService: ClassifiedService) {}
 
   ngOnInit() {
     this._classifiedService.getMyClassifieds()
@@ -36,5 +36,14 @@ export class MyClassifiedsCmp implements OnInit{
 
   onSelect(classified: Classified) {
     this.router.navigate(['/ShowClassified', {id: classified._id.$oid}]);
+  }
+
+  deleteClassified(classified: Classified) {
+    let deleteString = 'http://localhost:5000/classified/'+classified._id.$oid;
+    this.http
+      .delete(deleteString)
+      .subscribe(
+        response => this.router.navigate(['Home'])
+      );
   }
 }

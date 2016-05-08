@@ -17,7 +17,10 @@
           {{ classified.description }}
         </p>
       </md-card-content>
-      <button md-raised-button class="md-raised md-primary" (click)="onSelect(classified)">Zobacz więcej</button>
+      <div layout-sm="row">
+        <button md-raised-button class="md-raised md-primary" (click)="onSelect(classified)">Zobacz więcej</button>
+        <button md-raised-button class="md-raised md-warn" (click)="deleteClassified(classified)">Usuń ogłoszenie</button>
+      </div>
     </md-card>
   </div>
 </md-content>
