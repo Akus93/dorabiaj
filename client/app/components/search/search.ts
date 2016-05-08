@@ -4,7 +4,7 @@ import {FORM_DIRECTIVES, CORE_DIRECTIVES} from 'angular2/common';
 import {RouteParams} from 'angular2/router';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {SearchService} from '../../services/search.service';
+import {ClassifiedService} from '../../services/classified.service';
 import {Classified} from '../../services/classified';
 
 
@@ -13,7 +13,7 @@ import {Classified} from '../../services/classified';
   templateUrl: './components/search/search.html',
   styleUrls: ['./components/search/search.css'],
   directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES],
-  providers: [SearchService]
+  providers: [ClassifiedService]
 })
 export class SearchCmp implements OnInit {
 
@@ -23,17 +23,13 @@ export class SearchCmp implements OnInit {
   private _category: string;
 
 
-  constructor(private _searchService: SearchService, private params: RouteParams, private _router: Router) {
-    this._city = params.get('city');
-    this._category = params.get('category');
+  constructor(private _classifiedService: ClassifiedService, private _params: RouteParams, private _router: Router) {
+    this._city = _params.get('city');
+    this._category = _params.get('category');
   }
 
   ngOnInit() {
-    this.getSearchResults(this._city, this._category);
-  }
-
-  getSearchResults(city: string, category: string) {
-    this._searchService.getSearchResults(city, category)
+    this._classifiedService.getSearchResults(this._city, this._category)
       .subscribe(
         results => this.checkResponse(results));
   }

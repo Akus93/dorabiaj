@@ -8,6 +8,8 @@ import {Router} from 'angular2/router';
 
 @Component({
   selector: 'logout',
+  templateUrl: './components/logout/logout.html',
+  styleUrls: ['./components/logout/logout.css'],
   directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
   providers: []
 })
@@ -27,12 +29,8 @@ export class LogoutCmp {
   }
 
   logout() {
-      var headers = new Headers();
-      this.http
-        .get('http://localhost:5000/logout',
-          {
-            headers: headers
-          })
+
+      this.http.get('http://localhost:5000/logout')
         .map(response => response.json())
         .subscribe(
           response => this.check_response(response)

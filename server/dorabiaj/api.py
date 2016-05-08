@@ -17,12 +17,6 @@ def index():
     return 'You are not logged in'
 
 
-@app.route('/login', methods=['GET'])
-@crossdomain(origin='http://localhost:5555')
-def get_login():
-    return render_template('login.html')
-
-
 @app.route('/login', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
 def post_login():
@@ -40,13 +34,13 @@ def post_login():
     return Response(user.to_json(), status=200, content_type='application/json')
 
 
-@app.route('/logout', methods=['DELETE'])
+@app.route('/logout', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
 def logout():
     try:
         DBSession.objects.get(pk=session.sid).delete()
     except DBSession.DoesNotExist:
-        pass
+        print('Błąd wylogowania!!!')
     session.clear()
     return Response(json.dumps({'success': True}), content_type='application/json')
 
@@ -76,7 +70,7 @@ def delete_old_sessions():
 
 @app.route('/classifieds', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
-def get_classifieds(id=None):
+def get_classifieds():
     try:
         classifieds = Classified.objects.all().order_by('-created_at')
     except Classified.DoesNotExist:
@@ -143,11 +137,7 @@ def update_classified(id):
 @crossdomain(origin='http://localhost:5555')
 @login_required
 def post_classified():
-    IMD = request.form
-    MD = MultiDict(IMD)
-    MD.add('owner_nick',str(session['user']))
-    IMD_request = ImmutableMultiDict(MD)
-    form = ClassifiedForm(IMD_request)
+    form = ClassifiedForm(data=request.form, user=get_user())
     if form.is_vailid():
         form.save()
         return Response(json.dumps({'success': True}), status=200, content_type='application/json')
@@ -157,17 +147,14 @@ def post_classified():
 
 
 @app.route('/myclassifieds', methods=['GET'])
+@crossdomain(origin="http://localhost:5555")
 @login_required
-@crossdomain(origin='http://localhost:5555')
-def get_my_classifieds():
+def my_classifields():
+    user = get_user()
     try:
-        classifieds = Classified.objects.filter(owner_nick='571788ae3b16c9501c579336')
-        print(session)
-        # classifieds = Classified.objects.filter(owner_nick=str(session['user']))
-        # classifieds = Classified.objects.all().order_by('-created_at')
-        # print(classifieds)
+        classifieds = Classified.objects.filter(owner=user).order_by('-created_at')
     except Classified.DoesNotExist:
-        error = {'error': 'Brak ogloszenia'}
+        error = {'error': 'Brak ogloszen'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
 
@@ -200,7 +187,7 @@ def get_categories():
     try:
         categories = Category.objects.all()
     except Classified.DoesNotExist:
-        error = {'error': 'Brak ogloszen'}
+        error = {'error': 'Brak kategorii'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(categories.to_json(), status=200, content_type='application/json')
 
@@ -208,7 +195,6 @@ def get_categories():
 @app.route('/search/<city>/<category>', methods=['GET'])
 @crossdomain(origin="http://localhost:5555")
 def search(city, category):
-    user = get_user()
     city = pl_to_en(city)
     results = Classified.objects.filter(city__iexact=city, category=category)
     if not results:
@@ -216,16 +202,3 @@ def search(city, category):
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(results.to_json(), status=200, content_type='application/json')
 
-'''
-gdy chcemy dodać kategorie
-@app.route('/category', methods=['POST'])
-@crossdomain(origin='http://localhost:5555')
-def post_cattegory():
-    form = CategoryForm(request.form)
-    if form.is_vailid():
-        form.save()
-        return Response(json.dumps({'success': True}), status=200, content_type='application/json')
-    else:
-        error = form.get_errors()
-        return Response(json.dumps(error), status=200, content_type='application/json')
-'''

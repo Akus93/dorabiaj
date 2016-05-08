@@ -13,6 +13,7 @@ import {UserInfoCmp} from '../user-info/user_info';
 import {ShowClassifiedCmp} from '../showClassified/showClassified';
 import {MyClassifiedsCmp} from '../myClassifieds/myClassifieds';
 import {SearchCmp} from '../search/search';
+import {LogoutCmp} from "../logout/logout";
 
 
 @Component({
@@ -26,6 +27,7 @@ import {SearchCmp} from '../search/search';
   { path: '/', component: HomeCmp, as: 'Home' },
   { path: '/add-classified', component: AddClassifiedCmp, as: 'AddClassified' },
   { path: '/login', component: LoginCmp, as: 'Login' },
+  { path: '/logout', component: LogoutCmp, as: 'Logout' },
   { path: '/registration', component: RegistrationCmp, as: 'Registration' },
   { path: '/user/:username', component: UserInfoCmp, name: 'UserInfo'},
   { path: '/search/:city/:category', component: SearchCmp, name: 'Search'},
@@ -34,10 +36,6 @@ import {SearchCmp} from '../search/search';
 
 ])
 export class AppCmp {
-
-  logout() {
-    sessionStorage.removeItem('login');
-  }
 
   checkLogin() {
     var session = sessionStorage.getItem('login');

@@ -1,7 +1,4 @@
 <div layout="column">
-  <li *ngFor="#category of categories2">
-    <span class="badge">{{category.name}}</span> {{hero.name}}
-  </li>
 <h1 class="md-headline">Dodaj nowe ogłoszenie</h1>
 <md-content layout-padding>
     <form name="userForm" (submit)="save()">
@@ -20,8 +17,8 @@
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <select [(ngModel)]="classified.category" required id="test">
-            <option *ngFor="#category of categories" [(value)]="category.abbrev">
-              {{category.abbrev}}
+            <option *ngFor="#category of categories" [(value)]="category.name">
+              {{category.name}}
             </option>
           </select>
         </md-input-container>

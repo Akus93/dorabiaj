@@ -28,6 +28,10 @@ class ModelForm:
             self.additional
         except AttributeError:
             self.additional = {}
+        try:
+            self.error_message
+        except AttributeError:
+            self.error_message = {}
         self.error = {}
         self.cleaned_data = {}
         self.set_properties()
@@ -130,10 +134,11 @@ class ModelForm:
         else:
             return self.cleaned_data
 
-    def save(self):
+    def save(self, commit=True):
         data = self.data_to_save()
         new = self.model(**data)
-        new.save()
+        if commit:
+            new.save()
         return new
 
     def set_additional_properties(self):
@@ -184,7 +189,7 @@ class RegisterForm(ModelForm):
         super(RegisterForm, self).check_all()
         self.check_password()
 
-    def save(self):
+    def save(self, commit=True):
         self.cleaned_data['password'] = generate_password_hash(self.cleaned_data['password'])
         return super(RegisterForm, self).save()
 
@@ -193,6 +198,17 @@ class ClassifiedForm(ModelForm):
     model = Classified
     fields = ['_id', 'title', 'description', 'budget', 'province', 'city', 'category',
               'begin_date', 'end_date', 'phone']
+
+    def __init__(self, data, user):
+        super().__init__(data)
+        self.user = user
+
+    def save(self, commit=True):
+        classified = super().save(commit=False)
+        classified.owner = self.user
+        classified.owner_nick = self.user.username
+        classified.save()
+        return classified
 
 
 class CategoryForm(ModelForm):

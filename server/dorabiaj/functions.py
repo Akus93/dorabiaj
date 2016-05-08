@@ -25,7 +25,11 @@ def get_user():
     """
     :return User instancja zalogowanego użytkownika
     """
-    return User.objects.get_or_404(pk=session['user'])
+    try:
+        user = User.objects.get(pk=session['user'])
+    except User.DoesNotExist:
+        return False
+    return user
 
 
 def is_authorized():

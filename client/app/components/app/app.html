@@ -7,7 +7,7 @@
       <span [hidden]="checkLogin()==false"><button md-button [routerLink]="['/MyClassifieds']">Moje ogłoszenia</button></span>
       <span [hidden]="checkLogin()"><button md-button  [routerLink]="['/Login']">Zaloguj</button></span>
       <span [hidden]="checkLogin()"><button md-button [routerLink]="['/Registration']">Zarejestruj</button></span>
-      <span [hidden]="checkLogin()==false"><button md-button (click)="logout()">Wyloguj</button></span>
+      <span [hidden]="checkLogin()==false"><button md-button [routerLink]="['/Logout']">Wyloguj</button></span>
     </nav>
   </md-toolbar>
 

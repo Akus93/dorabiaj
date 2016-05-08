@@ -14,8 +14,8 @@
         <div layout-gt-sm="row">
           <md-input-container class="md-block" flex-gt-sm>
           <select [(ngModel)]="searchedCategory" required id="test">
-            <option *ngFor="#category of categories" [(value)]="category.abbrev">
-              {{category.abbrev}}
+            <option *ngFor="#category of categories" [(value)]="category.name">
+              {{category.name}}
             </option>
           </select>
         </md-input-container>
