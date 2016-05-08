@@ -40,12 +40,10 @@ export class LoginCmp {
 
   check_response(response) {
     if (response.hasOwnProperty('username')) {
-      console.log(response);
       sessionStorage.setItem('login', 'true');
       this.router.navigate(['Home']);
     } else if (response.hasOwnProperty('error')) {
       this.error = response['error'];
-      console.log(response);
     }
   }
 

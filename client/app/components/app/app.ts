@@ -13,7 +13,7 @@ import {UserInfoCmp} from '../user-info/user_info';
 import {ShowClassifiedCmp} from '../showClassified/showClassified';
 import {MyClassifiedsCmp} from '../myClassifieds/myClassifieds';
 import {SearchCmp} from '../search/search';
-import {LogoutCmp} from "../logout/logout";
+import {LogoutCmp} from '../logout/logout';
 
 
 @Component({

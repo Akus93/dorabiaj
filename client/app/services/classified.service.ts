@@ -53,6 +53,12 @@ export class ClassifiedService {
             .catch(this.handleError);
   }
 
+  deleteClassified(id: string): Observable<JSON> {
+    return this.http.delete(this._domain + 'classified/'+ id)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);

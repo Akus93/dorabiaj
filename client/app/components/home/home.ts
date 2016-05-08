@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {Http, HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS} from 'angular2/http';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {Classified} from '../../services/classified';
@@ -23,14 +23,14 @@ export class HomeCmp implements OnInit {
   public searchedCategory: string;
   public categories: any;
 
-  constructor(http: Http, private router: Router, private _classifiedService: ClassifiedService,
+  constructor(private router: Router, private _classifiedService: ClassifiedService,
               private _categoryService: CategoryService) {}
 
   ngOnInit() {
     this._classifiedService.getAllClassifieds()
       .subscribe(
         results => this.checkResponse(results));
-    
+
     this._categoryService.getCategories()
       .subscribe(
         results => this.setCategories(results)
@@ -44,7 +44,7 @@ export class HomeCmp implements OnInit {
         this.classifieds = res;
       }
     }
-  
+
   setCategories(res) {
     if (res.hasOwnProperty('error')) {
       this.error = res.error;

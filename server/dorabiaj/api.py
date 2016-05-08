@@ -90,11 +90,13 @@ def get_classified(id):
     return Response(classified.to_json(), status=200, content_type='application/json')
 
 
-@app.route('/classified/<id>', methods=['GET', 'DELETE'])
+@app.route('/classified/<id>', methods=['DELETE', 'OPTIONS'])
 @crossdomain(origin='http://localhost:5555')
+@login_required
 def delete_classified(id):
+    user = get_user()
     try:
-        classified = Classified.objects.get(id=id).delete()
+        Classified.objects.get(id=id, owner=user).delete()
     except Classified.DoesNotExist:
         pass
     return Response(json.dumps({'success': True}), content_type='application/json')
