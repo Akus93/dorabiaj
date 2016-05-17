@@ -193,6 +193,26 @@ class RegisterForm(ModelForm):
         self.cleaned_data['password'] = generate_password_hash(self.cleaned_data['password'])
         return super(RegisterForm, self).save()
 
+class UserForm(ModelForm):
+
+    model = User
+    fields = ['username', 'password', 'email', 'first_name', 'last_name', 'city', ]
+    email = ['email', ]
+    allowed_chars = {'username': ascii_letters + digits,
+                     'email': ascii_letters + digits + '@.',
+                     'first_name': ascii_letters + ' ',
+                     'last_name': ascii_letters + ' ',
+                     'city': ascii_letters + ' ',
+                     }
+    error_message = {
+        'username': {
+            'required': 'Wpisz poprawny nick.',
+            'unique': 'Ten login jest juz zajęty.'
+        }
+    }
+    def save(self, commit=True):
+        self.cleaned_data['password'] = generate_password_hash(self.cleaned_data['password'])
+        return super(RegisterForm, self).save()
 
 class ClassifiedForm(ModelForm):
     model = Classified
