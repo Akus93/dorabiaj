@@ -1,5 +1,4 @@
 import {Component, OnInit} from 'angular2/core';
-import {HTTP_PROVIDERS} from 'angular2/http';
 import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
@@ -9,7 +8,7 @@ import {ClassifiedService} from '../../services/classified.service';
   selector: 'show-classified',
   templateUrl: './components/showClassified/showClassified.html',
   styleUrls: ['./components/showClassified/showClassified.css'],
-  viewProviders: [HTTP_PROVIDERS, ROUTER_DIRECTIVES],
+  viewProviders: [ROUTER_DIRECTIVES],
   providers: [ClassifiedService]
 })
 export class ShowClassifiedCmp implements OnInit {

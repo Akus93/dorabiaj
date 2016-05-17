@@ -4,8 +4,6 @@ import {Observable}     from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {Classified} from './classified';
 
-
-
 @Injectable()
 export class ClassifiedService {
 
@@ -57,6 +55,20 @@ export class ClassifiedService {
     return this.http.delete(this._domain + 'classified/'+ id)
                   .map(this.extractData)
                   .catch(this.handleError);
+  }
+
+  changeClassified(id: string, classified: Classified): Observable<JSON> {
+    var body = 'title=' + classified.title + '&description=' + classified.description + '&budget='
+      + classified.budget + '&city=' + classified.city + '&province=' + classified.province
+      + '&category=' + classified.category + '&begin_date=' + classified.begin_date
+      + '&end_date=' + classified.end_date + '&phone=' + classified.phone;
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.put(this._domain + 'classified/'+ id, body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   private extractData(res: Response) {

@@ -1,7 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
 import {Router} from 'angular2/router';
 import {CategoryService} from '../../services/category.service';
@@ -23,7 +22,7 @@ export class AddClassifiedCmp implements OnInit {
   public classified: Classified;
   public error: string;
 
-  constructor(public http: Http, private _router: Router, private _categoryService: CategoryService,
+  constructor(private _router: Router, private _categoryService: CategoryService,
               private _classifiedService: ClassifiedService) {
     this.classified = new Classified();
   }

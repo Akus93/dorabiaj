@@ -104,14 +104,16 @@ def delete_classified(id):
 
 @app.route('/classified/<id>', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')
+@login_required
 def update_classified(id):
+    user = get_user()
     try:
-        classified = Classified.objects.get(id=id)
+        classified = Classified.objects.get(id=id, owner=user)
     except Classified.DoesNotExist:
         error = {'error': 'Brak ogloszenia'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     # walidacja formularza edycji
-    form = ClassifiedForm(request.form)
+    form = ClassifiedForm(data=request.form, user=get_user())
     if form.is_vailid():
         try:
             classified.title = form.data['title']

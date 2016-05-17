@@ -1,5 +1,4 @@
 import {Component, OnInit} from 'angular2/core';
-import {HTTP_PROVIDERS} from 'angular2/http';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
@@ -9,7 +8,7 @@ import {ClassifiedService} from '../../services/classified.service';
   selector: 'my-classified',
   templateUrl: './components/myClassifieds/myClassifieds.html',
   styleUrls: ['./components/myClassifieds/myClassifieds.css'],
-  viewProviders: [HTTP_PROVIDERS, ROUTER_DIRECTIVES],
+  viewProviders: [ROUTER_DIRECTIVES],
   providers: [ClassifiedService]
 })
 export class MyClassifiedsCmp implements OnInit {
@@ -54,5 +53,8 @@ export class MyClassifiedsCmp implements OnInit {
     this.router.navigate(['/ShowClassified', {id: classified._id.$oid}]);
   }
 
+  edit(classified: Classified) {
+    this.router.navigate(['/EditClassified', {id: classified._id.$oid}]);
+  }
 
 }
