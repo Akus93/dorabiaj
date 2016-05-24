@@ -196,7 +196,7 @@ class RegisterForm(ModelForm):
 class UserForm(ModelForm):
 
     model = User
-    fields = ['username', 'email', 'first_name', 'last_name', 'city', ]
+    fields = ['username', 'email', 'first_name', 'last_name', 'city', 'interests', ]
     #['username', 'email', 'first_name', 'last_name', 'city' ]
     # email = ['email', ]
     # możliwość podstawienia username, email istniejącego już w bazie
