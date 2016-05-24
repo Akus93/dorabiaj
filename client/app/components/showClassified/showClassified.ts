@@ -9,7 +9,6 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
   selector: 'show-classified',
   templateUrl: './components/showClassified/showClassified.html',
   styleUrls: ['./components/showClassified/showClassified.css'],
-  viewProviders: [HTTP_PROVIDERS],
   directives: [ROUTER_DIRECTIVES],
   providers: [ClassifiedService]
 })

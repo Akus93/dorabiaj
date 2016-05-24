@@ -5,7 +5,7 @@ from werkzeug.datastructures import MultiDict, ImmutableMultiDict
 from werkzeug.security import check_password_hash
 
 from . import app
-from .models import User, DBSession, Classified, Category
+from .models import User, DBSession, Classified, Category, Offer
 from .functions import is_authorized, get_user, login_required, crossdomain, admin_required, pl_to_en
 from .forms import RegisterForm, ClassifiedForm, CategoryForm
 
@@ -204,3 +204,23 @@ def search(city, category):
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(results.to_json(), status=200, content_type='application/json')
 
+
+@app.route('/offer/add', methods=['POST'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def add_offer():
+    classified_id = request.form['classifiedId']
+    owner_nick = get_user().username
+    price = request.form['price']
+    try:
+        classified = Classified.objects.get(pk=classified_id)
+    except Classified.DoesNotExist:
+        return Response(json.dumps({'error': 'Nie ma takiego ogłoszenia'}), status=200, content_type='application/json')
+    if float(price) < 0:
+        return Response(json.dumps({'error': 'Niepoprawna kwota'}), status=200, content_type='application/json')
+    if float(price) > classified.budget:
+        return Response(json.dumps({'error': 'Za duża kwota'}), status=200, content_type='application/json')
+    new_offer = Offer(owner_nick=owner_nick, price=price)
+    classified.offers.append(new_offer)
+    classified.save()
+    return Response(json.dumps({'success': True}), status=200, content_type='application/json')
