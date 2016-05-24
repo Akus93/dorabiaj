@@ -14,6 +14,7 @@ import {ShowClassifiedCmp} from '../showClassified/showClassified';
 import {MyClassifiedsCmp} from '../myClassifieds/myClassifieds';
 import {SearchCmp} from '../search/search';
 import {LogoutCmp} from '../logout/logout';
+import {EditClassifiedCmp} from '../editClassified/editClassified';
 
 
 @Component({
@@ -32,6 +33,7 @@ import {LogoutCmp} from '../logout/logout';
   { path: '/user/:username', component: UserInfoCmp, name: 'UserInfo'},
   { path: '/search/:city/:category', component: SearchCmp, name: 'Search'},
   { path: '/classified/:id', component: ShowClassifiedCmp, as: 'ShowClassified'},
+  { path: '/edit-classified/:id', component: EditClassifiedCmp, as: 'EditClassified'},
   { path: '/my-classifieds', component: MyClassifiedsCmp, as: 'MyClassifieds'}
 
 ])

@@ -1,0 +1,50 @@
+<div layout="column">
+  <h1 class="md-headline">Modyfikuj ogłoszenie</h1>
+  <md-content layout-padding>
+    <form name="userForm" (submit)="saveChanges()">
+      <div layout-gt-sm="row">
+        <p>{{ classified.title }}</p>
+      </div>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Opis</label>
+          <textarea md-input [(ngModel)]="classified.description" required columns="2" md-maxlength="300" rows="5"></textarea>
+        </md-input-container>
+      </div>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Budżet</label>
+          <input md-input [(ngModel)]="classified.budget" required>
+        </md-input-container>
+      </div>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Województwo</label>
+          <input md-input [(ngModel)]="classified.province" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Miejscowość</label>
+          <input md-input [(ngModel)]="classified.city" required>
+        </md-input-container>
+      </div>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Data rozpoczęcia</label>
+          <input md-input [(ngModel)]="classified.begin_date" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Data zakończenia</label>
+          <input md-input [(ngModel)]="classified.end_date" required>
+        </md-input-container>
+      </div>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Numer telefonu</label>
+          <input md-input [(ngModel)]="classified.phone" required mdPattern="^[0-9]{9}$" mdMaxLength="9">
+        </md-input-container>
+      </div>
+      <button md-raised-button class="md-raised md-warn" (click)="cancel()">Anuluj</button>
+      <button md-raised-button class="md-raised md-primary" type="submit">Zachowaj</button>
+    </form>
+  </md-content>
+</div>

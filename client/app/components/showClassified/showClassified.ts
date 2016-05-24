@@ -1,5 +1,4 @@
 import {Component, OnInit} from 'angular2/core';
-import {HTTP_PROVIDERS} from 'angular2/http';
 import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';

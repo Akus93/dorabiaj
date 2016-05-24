@@ -5,7 +5,6 @@ import 'rxjs/Rx';
 
 import {User} from './user';
 
-
 @Injectable()
 export class UserService {
 

@@ -1,11 +1,13 @@
-from flask import session, request, Response, redirect, url_for, json, render_template
+from flask import session, request, Response, redirect, url_for, render_template, json
 from datetime import datetime
+
+from werkzeug.datastructures import MultiDict, ImmutableMultiDict
 from werkzeug.security import check_password_hash
 
 from . import app
-from .models import User, DBSession, Classified, Category, Offer
-from .functions import is_authorized, get_user, login_required, crossdomain, pl_to_en
-from .forms import RegisterForm, ClassifiedForm
+from .models import User, DBSession, Classified, Category
+from .functions import is_authorized, get_user, login_required, crossdomain, admin_required, pl_to_en
+from .forms import RegisterForm, ClassifiedForm, CategoryForm
 
 
 @app.route('/')
@@ -13,21 +15,6 @@ def index():
     if is_authorized():
         return 'Logged in as {}'.format(get_user().get_full_name())
     return 'You are not logged in'
-
-
-@app.route('/admin-login', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'GET':
-        return render_template('login.html')
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            return render_template('login.html')
-        session['user'] = user.id
-        return redirect('/admin/')
 
 
 @app.route('/login', methods=['POST'])
@@ -174,6 +161,14 @@ def my_classifields():
     return Response(classifieds.to_json(), status=200, content_type='application/json')
 
 
+@app.route('/admin', methods=['GET'])
+@crossdomain(origin='http://localhost:5555')
+@login_required
+@admin_required
+def admin():
+    pass
+
+
 @app.route('/user/<username>', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
 def get_userinfo(username):
@@ -209,23 +204,3 @@ def search(city, category):
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(results.to_json(), status=200, content_type='application/json')
 
-
-@app.route('/offer/add', methods=['POST'])
-@crossdomain(origin="http://localhost:5555")
-@login_required
-def add_offer():
-    classified_id = request.form['classifiedId']
-    owner_nick = get_user().username
-    price = request.form['price']
-    try:
-        classified = Classified.objects.get(pk=classified_id)
-    except Classified.DoesNotExist:
-        return Response(json.dumps({'error': 'Nie ma takiego ogłoszenia'}), status=200, content_type='application/json')
-    if float(price) < 0:
-        return Response(json.dumps({'error': 'Niepoprawna kwota'}), status=200, content_type='application/json')
-    if float(price) > classified.budget:
-        return Response(json.dumps({'error': 'Za duża kwota'}), status=200, content_type='application/json')
-    new_offer = Offer(owner_nick=owner_nick, price=price)
-    classified.offers.append(new_offer)
-    classified.save()
-    return Response(json.dumps({'success': True}), status=200, content_type='application/json')
