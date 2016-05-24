@@ -1,7 +1,5 @@
-from flask import session, request, Response, redirect, url_for, render_template, json
+from flask import session, request, Response, redirect, url_for, json, render_template
 from datetime import datetime
-
-from werkzeug.datastructures import MultiDict, ImmutableMultiDict
 from werkzeug.security import check_password_hash
 
 from . import app
@@ -15,6 +13,25 @@ def index():
     if is_authorized():
         return 'Logged in as {}'.format(get_user().get_full_name())
     return 'You are not logged in'
+
+
+@app.route('/admin-login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return render_template('login.html', error='Nie ma takiego użytkownika')
+        if not check_password_hash(user.password, password):
+            return render_template('login.html', error='Złe hasło')
+        if not user.is_superuser:
+            return render_template('login.html', error='Nie masz uprawnień')
+        session['user'] = user.id
+        return redirect('/admin/')
 
 
 @app.route('/login', methods=['POST'])
@@ -159,14 +176,6 @@ def my_classifields():
         error = {'error': 'Brak ogloszen'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
-
-
-@app.route('/admin', methods=['GET'])
-@crossdomain(origin='http://localhost:5555')
-@login_required
-@admin_required
-def admin():
-    pass
 
 
 @app.route('/user/<username>', methods=['GET'])

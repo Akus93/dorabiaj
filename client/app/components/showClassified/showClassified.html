@@ -34,13 +34,14 @@
           </tr>
           </tbody>
         </md-data-table>
+        <br>
         <button md-raised-button class="md-raised md-primary" (click)="changeAddOfferShow()">Dodaj swoją oferte</button>
         <div [hidden]="addOfferShow==false">
             <form name="offerForm" (submit)="addOffer()">
-            <span [hidden]="error==false">{{error}}</span><br><br>
+            <span [hidden]="offerError==false">{{offerError}}</span><br><br>
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
-                <label>Twoja cena</label>
+                Twoja cena:
                 <input md-input id="username" [(ngModel)]="offerPrice" required>
               </md-input-container>
             </div>

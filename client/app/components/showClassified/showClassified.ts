@@ -1,8 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
-import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 
 @Component({
@@ -16,15 +15,9 @@ export class ShowClassifiedCmp implements OnInit {
 
   public classified: Classified;
   public error: string;
+  public offerError:string;
   public offerPrice: number;
   public addOfferShow = false;
-
-  materials: Array<any> = [
-    {'id': 1, 'name': 'Acrylic (Transparent)', 'quantity': '25', 'price': '$2.90'},
-    {'id': 2, 'name': 'Plywood (Birch)', 'quantity': '50', 'price': '$1.25'},
-    {'id': 3, 'name': 'Laminate (Gold on Blue)', 'quantity': '10', 'price': '$2.35'}
-  ];
-
   private _id: string;
 
   constructor(private _params: RouteParams, private _classifiedService: ClassifiedService, public router: Router) {
@@ -45,7 +38,7 @@ export class ShowClassifiedCmp implements OnInit {
   addOffer() {
     this._classifiedService.addOffer(this.classified._id.$oid, this.offerPrice)
       .subscribe(
-        result => this.checkResponse(result));
+        result => this.checkOfferResponse(result));
   }
 
   changeAddOfferShow() {
@@ -58,6 +51,14 @@ export class ShowClassifiedCmp implements OnInit {
         //this._router.navigate(['Home']);
       } else {
         this.classified = res;
+      }
+    }
+
+  checkOfferResponse(res) {
+      if (res.hasOwnProperty('error')) {
+        this.offerError = res.error;
+      } else {
+        this.router.navigate(['Home']);
       }
     }
 }
