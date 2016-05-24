@@ -50,7 +50,6 @@ def logout():
 def post_signup():
     form = RegisterForm(request.form)
     if form.is_vailid():
-        print(form)
         form.save()
         return Response(json.dumps({'success': True}), status=200, content_type='application/json')
     else:
@@ -201,29 +200,22 @@ def get_myuserinfo():
 
 @app.route('/myuser', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')
-#@login_required
+@login_required
 def update_myuserinfo():
-    #user = get_user()
+    user = get_user()
     # walidacja formularza edycji
     form = UserForm(request.form)
     if form.is_vailid():
-        #sprawdzenie czy w request username, email występują w bazie i są różne od user.username, user.email
-        #jesli tak to error
-        #jesli nie to mozna nadpisywac wartosci zmiennej
         try:
-            c = form
-            print(c)
-            # classified.phone = form.data['phone']
-            # classified.save()
+            user.first_name = form.data['first_name']
+            user.last_name = form.data['last_name']
+            user.city = form.data['city']
+            user.save()
         except:
             error = {'error': 'Edycja nie powiodla sie'}
             return Response(json.dumps(error), status=200, content_type='application/json')
-
         return Response(json.dumps({'success': True}), content_type='application/json')
-
     else:
-        print(form.fields)
-        print(request.form)
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
 
