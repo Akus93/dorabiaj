@@ -1,4 +1,5 @@
 from flask import Flask
+from flask.ext.admin import AdminIndexView
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 
 
@@ -16,5 +17,20 @@ app.debug = True
 db = MongoEngine(app)
 app.session_interface = MongoEngineSessionInterface(db)
 
+
 from .api import *
+from .admin import *
+from .models import Province
+
+admin = admin.Admin(app, 'Dorabiaj - Admin Panel', template_mode='bootstrap3', index_view=AdminIndexView(
+        name='Home',
+        template='admin/myhome.html',
+        url='/admin',
+    ))
+
+admin.add_view(UserView(User))
+admin.add_view(ClassifiedView(Classified))
+admin.add_view(ProvinceView(Province))
+admin.add_view(CategoryView(Category))
+
 

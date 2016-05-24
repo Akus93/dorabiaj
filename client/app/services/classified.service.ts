@@ -48,7 +48,7 @@ export class ClassifiedService {
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post('http://localhost:5000/classified', body, {headers: headers})
+    return this.http.post(this._domain + 'classified', body, {headers: headers})
             .map(this.extractData)
             .catch(this.handleError);
   }
@@ -57,6 +57,18 @@ export class ClassifiedService {
     return this.http.delete(this._domain + 'classified/'+ id)
                   .map(this.extractData)
                   .catch(this.handleError);
+  }
+
+  addOffer(classifiedId: string, price: number): Observable<JSON> {
+
+    var body = 'classifiedId=' + classifiedId + '&price=' + price;
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(this._domain + 'offer/add', body, {headers: headers})
+            .map(this.extractData)
+            .catch(this.handleError);
   }
 
   private extractData(res: Response) {

@@ -1,4 +1,4 @@
-from .models import User, Classified, Category
+from .models import User, Classified, Category, Offer
 from re import match as re_match
 from string import ascii_letters, digits
 from werkzeug.security import generate_password_hash

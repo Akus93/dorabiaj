@@ -23,19 +23,30 @@
         <md-data-table layout-fill>
           <thead>
           <tr>
-            <th class="md-text-cell">Material</th>
-            <th>Quantity</th>
-            <th>Unit price</th>
+            <th class="md-text-cell">Użytkownik</th>
+            <th>Cena</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="#material of materials">
-            <td class="md-text-cell">{{ material.name }}</td>
-            <td>{{ material.quantity }}</td>
-            <td>{{ material.price }}</td>
+          <tr *ngFor="#offer of classified.offers">
+            <td class="md-text-cell"><a [routerLink]="['UserInfo', { username: offer.owner_nick}]">{{offer.owner_nick}}</a></td>
+            <td>{{ offer.price }}</td>
           </tr>
           </tbody>
         </md-data-table>
+        <button md-raised-button class="md-raised md-primary" (click)="changeAddOfferShow()">Dodaj swoją oferte</button>
+        <div [hidden]="addOfferShow==false">
+            <form name="offerForm" (submit)="addOffer()">
+            <span [hidden]="error==false">{{error}}</span><br><br>
+            <div layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Twoja cena</label>
+                <input md-input id="username" [(ngModel)]="offerPrice" required>
+              </md-input-container>
+            </div>
+            <button md-raised-button class="md-raised md-primary" type="submit">Zatwierdź</button>
+          </form>
+        </div>
       </md-card-content>
     </md-card>
   </div>
