@@ -22,6 +22,11 @@ class Opinion(db.EmbeddedDocument):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
 
 
+class Rank(db.EmbeddedDocument):
+    category = db.StringField(required=True)
+    points = db.IntField(default=0)
+
+
 class User(db.Document):
     username = db.StringField(max_length=50, min_length=5, required=True, unique=True)
     password = db.StringField(required=True)
@@ -30,6 +35,7 @@ class User(db.Document):
     last_name = db.StringField(max_length=64, required=True)
     city = db.StringField(max_length=64, required=True)
     interests = db.StringField()
+    ranks = db.ListField(db.EmbeddedDocumentField(Rank))
     tokens = db.IntField(default=0, require=True)
     is_superuser = db.BooleanField(default=False, require=True)
     opinions = db.ListField(db.EmbeddedDocumentField(Opinion))

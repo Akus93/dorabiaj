@@ -4,8 +4,8 @@ from werkzeug.security import check_password_hash
 
 from . import app
 from .models import User, DBSession, Classified, Category, Offer
-from .functions import is_authorized, get_user, login_required, crossdomain, admin_required, pl_to_en
-from .forms import RegisterForm, ClassifiedForm, CategoryForm, UserForm
+from .functions import is_authorized, get_user, login_required, crossdomain, pl_to_en
+from .forms import RegisterForm, ClassifiedForm, UserForm
 
 
 @app.route('/')
@@ -191,6 +191,7 @@ def get_userinfo(username):
                  'opinions': user.opinions}
     return Response(json.dumps(user_info), status=200, content_type='application/json')
 
+
 @app.route('/myuser', methods=['GET'])
 @crossdomain(origin='http://localhost:5555')
 @login_required
@@ -204,6 +205,7 @@ def get_myuserinfo():
                  'lastName': user.last_name, 'city': user.city, 'admin': user.is_superuser, 'tokens': user.tokens,
                  'opinions': user.opinions}
     return Response(json.dumps(user_info), status=200, content_type='application/json')
+
 
 @app.route('/myuser', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')
@@ -226,6 +228,7 @@ def update_myuserinfo():
     else:
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
+
 
 @app.route('/categories', methods=['GET'])
 @crossdomain(origin="http://localhost:5555")
@@ -260,6 +263,11 @@ def add_offer():
         classified = Classified.objects.get(pk=classified_id)
     except Classified.DoesNotExist:
         return Response(json.dumps({'error': 'Nie ma takiego ogłoszenia'}), status=200, content_type='application/json')
+    try:
+        Classified.objects.get(pk=classified_id, offers__owner_nick=owner_nick)
+        return Response(json.dumps({'error': 'Już dodałeś swoją oferte'}), status=200, content_type='application/json')
+    except Classified.DoesNotExist:
+        pass
     if float(price) < 0:
         return Response(json.dumps({'error': 'Niepoprawna kwota'}), status=200, content_type='application/json')
     if float(price) > classified.budget:
@@ -268,3 +276,9 @@ def add_offer():
     classified.offers.append(new_offer)
     classified.save()
     return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+
+
+# @app.route('//add', methods=['POST'])
+# @crossdomain(origin="http://localhost:5555")
+# @login_required
+# def add_offer():

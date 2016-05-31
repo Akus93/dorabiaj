@@ -1,5 +1,5 @@
 from flask import session, Response
-from .models import User
+from .models import User, Rank
 from functools import wraps
 from datetime import timedelta
 from flask import make_response, request, current_app
@@ -97,3 +97,22 @@ def admin_required(f):
 
 def pl_to_en(word):
     return word.translate(str.maketrans("ąćęłńóśżźĄĆĘŁŃÓŚŻŹ", "acelnoszzACELNOSZZ"))
+
+
+def transfer_tokens(_from, _to, tokens, category):
+    if _from.tokens >= tokens:
+        _from.tokens -= tokens
+        _to.tokens += tokens
+        found = False
+        for rank in _to.ranks:
+            if rank.category == category:
+                rank.points += tokens
+                found = True
+        if not found:
+            new_rank = Rank(category=category, points=tokens)
+            _to.ranks.append(new_rank)
+        _to.save()
+        _from.save()
+        return True
+    return False
+
