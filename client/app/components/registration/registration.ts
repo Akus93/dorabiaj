@@ -72,7 +72,7 @@ export class RegistrationCmp {
           response => this.check_response(response)
         );
     }
- }
+  }
 
 
 }

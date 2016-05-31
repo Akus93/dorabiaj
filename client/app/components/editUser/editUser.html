@@ -1,0 +1,58 @@
+<h1 class="md-headline">Ustawienia</h1>
+<h2>{{user.firstName}} {{user.lastName}}</h2>
+<h4>nick: {{user.username}}</h4>
+<md-divider></md-divider>
+<h5>Miasto: {{user.city}}</h5>
+<h5>Email: {{user.email}}</h5>
+<h5>Zainteresowania: {{user.interests}}</h5>
+
+<md-content layout-padding>
+  <div>
+    <form name="changePasswordForm" (submit)="changePassword()">
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Hasło</label>
+          <span [hidden]="error['password']==false">{{error['password']}}</span>
+          <input md-input id="password" [(ngModel)]="password.password" type="password" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Powtórz hasło</label>
+          <span [hidden]="error['password2']==false">{{error['password2']}}</span>
+          <input md-input id="password2" [(ngModel)]="password.password2" type="password" required>
+        </md-input-container>
+      </div>
+      <button md-raised-button class="md-raised md-warn" (click)="cancel()">Anuluj</button>
+      <button md-raised-button class="md-raised md-primary" type="submit">Zapisz</button>
+    </form>
+    <form name="changeUserForm" (submit)="changeUser()">
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Imię</label>
+          <span [hidden]="error['first_name']==false">{{error['first_name']}}</span>
+          <input md-input id="first_name" [(ngModel)]="user2.first_name" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Nazwisko</label>
+          <span [hidden]="error['last_name']==false">{{error['last_name']}}</span>
+          <input md-input id="last_name" [(ngModel)]="user2.last_name" required>
+        </md-input-container>
+      </div>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block">
+          <label>Miejscowość</label>
+          <span [hidden]="error['city']==false">{{error['city']}}</span>
+          <input md-input id="city" [(ngModel)]="user2.city" value="" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <select [(ngModel)]="user2.interests" required id="test">
+            <option *ngFor="#category of categories" [(value)]="category.name">
+              {{category.name}}
+            </option>
+          </select>
+        </md-input-container>
+      </div>
+      <button md-raised-button class="md-raised md-warn" (click)="cancel()">Anuluj</button>
+      <button md-raised-button class="md-raised md-primary" type="submit">Zapisz</button>
+    </form>
+  </div>
+</md-content>
