@@ -1,5 +1,5 @@
 import {Injectable}     from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {Http, Response, Headers} from 'angular2/http';
 import {Observable}     from 'rxjs/Observable';
 import 'rxjs/Rx';
 
@@ -17,6 +17,36 @@ export class UserService {
     return this.http.get(this._userUrl + username)
                     .map(this.extractData)
                     .catch(this.handleError);
+  }
+
+  getMyUser(): Observable<User> {
+    return this.http.get('http://localhost:5000/myuser')
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  changeMyUser(user: User): Observable<JSON> {
+    var body = 'username=' + user['username'] + '&email=' + user['email'] + '&password=' +
+      user['password'] + '&password2=' + user['password2'] + '&city=' + user['city'] + '&first_name=' +
+      user['first_name'] + '&last_name=' + user['last_name'];
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.put('http://localhost:5000/myuser/', body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  changePassword(password): Observable<JSON> {
+    var body = 'password=' + password['password'] + '&password2=' + password['password2'];
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.put('http://localhost:5000/changePassword/', body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   private extractData(res: Response) {

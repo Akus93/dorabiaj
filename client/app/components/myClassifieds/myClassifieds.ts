@@ -16,7 +16,7 @@ export class MyClassifiedsCmp implements OnInit {
   public classifieds: Classified[];
   public error: string;
 
-  constructor(private router: Router, private _classifiedService: ClassifiedService) {}
+    constructor(private router: Router, private _classifiedService: ClassifiedService) {}
 
   ngOnInit() {
     this._classifiedService.getMyClassifieds()
