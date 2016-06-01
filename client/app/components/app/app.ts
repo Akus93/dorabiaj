@@ -16,6 +16,7 @@ import {SearchCmp} from '../search/search';
 import {LogoutCmp} from '../logout/logout';
 import {EditClassifiedCmp} from '../editClassified/editClassified';
 import {EditUserCmp} from '../editUser/editUser';
+import {ClassifiedsForMeCmp} from '../classifiedsForMe/classifiedsForMe'
 
 
 @Component({
@@ -36,7 +37,8 @@ import {EditUserCmp} from '../editUser/editUser';
   { path: '/classified/:id', component: ShowClassifiedCmp, as: 'ShowClassified'},
   { path: '/edit-classified/:id', component: EditClassifiedCmp, as: 'EditClassified'},
   { path: '/my-classifieds', component: MyClassifiedsCmp, as: 'MyClassifieds'},
-  { path: '/edit-user', component: EditUserCmp, as: 'EditUser'}
+  { path: '/edit-user', component: EditUserCmp, as: 'EditUser'},
+  { path: '/classifieds-for-me', component: ClassifiedsForMeCmp, as: 'ClassifiedsForMe'}
 
 ])
 export class AppCmp {

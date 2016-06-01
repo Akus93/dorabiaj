@@ -1,0 +1,44 @@
+<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
+
+    <div layout-gt-sm="row">
+      <form name="search" (submit)="search()">
+          <md-input-container class="md-block" flex-gt-sm>
+            Miasto
+            <input md-input [(ngModel)]="searchedCity" required>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            Kategoria
+          <select [(ngModel)]="searchedCategory" required id="test">
+            <option *ngFor="#category of categories" [(value)]="category.name">
+              {{category.name}}
+            </option>
+          </select>
+        </md-input-container>
+        <button md-raised-button class="md-raised md-primary" type="submit">Wyszukaj</button>
+      </form>
+    </div>
+
+  <div flex="80" layout="column" flex-xs="100">
+
+    <!-- classifields -->
+    <md-card *ngFor="#classified of classifieds">
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">{{ classified.budget }} PLN</span>
+          <span class="md-subhead">{{ classified.city }}</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">{{ classified.title }}</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <p>
+          {{ classified.description }}
+        </p>
+      </md-card-content>
+      <button md-raised-button class="md-raised md-primary" (click)="onSelect(classified)">Zobacz więcej</button>
+    </md-card>
+  </div>
+</md-content>
