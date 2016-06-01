@@ -16,6 +16,9 @@ export class Classified {
 }
 
 export class Offer {
+  _id: {
+    $oid: string;
+  };
   owner_nick: string;
   price: number;
   is_accepted: boolean;

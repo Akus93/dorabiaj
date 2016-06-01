@@ -17,6 +17,26 @@
           {{ classified.description }}
         </p>
       </md-card-content>
+      <div *ngIf="classified.offers.length > 0">
+          <p>Lista chętnych:</p>
+        <md-data-table>
+          <thead>
+          <tr>
+            <th class="md-text-cell">Użytkownik</th>
+            <th>Cena</th>
+            <th>Wybierz</th>
+          </tr>
+          </thead>
+          <tbody>
+          <span [hidden]="offerError==false">{{offerError}}</span><br>
+          <tr *ngFor="#offer of classified.offers">
+            <td class="md-text-cell"><a [routerLink]="['UserInfo', { username: offer.owner_nick}]">{{offer.owner_nick}}</a></td>
+            <td>{{ offer.price }} punktów</td>
+            <td><button md-raised-button class="md-raised md-primary" (click)="selectOffer(classified, offer.owner_nick)">Wybierz</button></td>
+          </tr>
+          </tbody>
+        </md-data-table>
+      </div>
       <div layout-sm="row">
         <button md-raised-button class="md-raised md-primary" (click)="onSelect(classified)">Zobacz więcej</button>
         <button md-raised-button class="md-raised md-warn" (click)="deleteClassified(classified)">Usuń ogłoszenie</button>

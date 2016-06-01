@@ -20,7 +20,7 @@ export class AddClassifiedCmp implements OnInit {
   public categories;
 
   public classified: Classified;
-  public error: string;
+  public error: JSON;
 
   constructor(private _router: Router, private _categoryService: CategoryService,
               private _classifiedService: ClassifiedService) {

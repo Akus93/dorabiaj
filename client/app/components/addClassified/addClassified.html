@@ -2,6 +2,7 @@
 <h1 class="md-headline">Dodaj nowe ogłoszenie</h1>
 <md-content layout-padding>
     <form name="userForm" (submit)="save()">
+      <span [hidden]="error==false">{{error}}</span><br>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Tytuł</label>
