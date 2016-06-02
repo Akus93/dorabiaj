@@ -128,7 +128,7 @@ def update_classified(id):
         error = {'error': 'Brak ogloszenia'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     # walidacja formularza edycji
-    form = ClassifiedForm(request.form)
+    form = ClassifiedForm(request.form, user=get_user())
     if form.is_vailid():
         try:
             classified.title = form.data['title']

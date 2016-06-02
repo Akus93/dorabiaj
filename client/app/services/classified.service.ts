@@ -78,7 +78,7 @@ export class ClassifiedService {
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this._domain + 'changeClassified/'+ id, body, {headers: headers})
+    return this.http.put(this._domain + 'classified/'+ id, body, {headers: headers})
       .map(this.extractData)
       .catch(this.handleError);
   }
