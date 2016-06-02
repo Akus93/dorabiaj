@@ -233,7 +233,7 @@ def update_myuserpassword():
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
 
-@app.route('/myuser', methods=['PUT'])
+@app.route('/changeMyUser', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
 @login_required
 def update_myuserinfo():

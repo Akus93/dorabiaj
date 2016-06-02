@@ -32,7 +32,7 @@ export class UserService {
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.put('http://localhost:5000/myuser/', body, {headers: headers})
+    return this.http.post('http://localhost:5000/changeMyUser', body, {headers: headers})
       .map(this.extractData)
       .catch(this.handleError);
   }
