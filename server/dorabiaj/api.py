@@ -1,11 +1,11 @@
 from flask import session, request, Response, redirect, url_for, json, render_template
 from datetime import datetime
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import app
 from .models import User, DBSession, Classified, Category, Offer
 from .functions import is_authorized, get_user, login_required, crossdomain, pl_to_en
-from .forms import RegisterForm, ClassifiedForm, UserForm
+from .forms import RegisterForm, ClassifiedForm, UserForm, PasswordForm
 
 
 @app.route('/')
@@ -207,6 +207,32 @@ def get_myuserinfo():
     return Response(json.dumps(user_info), status=200, content_type='application/json')
 
 
+@app.route('/myuser/password', methods=['PUT'])
+@crossdomain(origin='http://localhost:5555')
+@login_required
+def update_myuserpassword():
+    user = get_user()
+
+    form = PasswordForm(data=request.form)
+    # walidacja formularza edycji
+    if form.is_vailid():
+        oldpassword = form.cleaned_data['oldpassword']
+        #sprawdzenie czy obecne hasła uzytwkonika sie zgadzaja
+        if not check_password_hash(user.password, oldpassword):
+            error = {'error': "Nieprawidłowe stare hasło"}
+            return Response(json.dumps(error), status=200, content_type='application/json')
+        #sprawdzenie poprawnosci nowego hasla
+        if form.cleaned_data['password'] != form.cleaned_data['confirmpassword']:
+            error = {'error': "Hasła nie są takie same"}
+            return Response(json.dumps(error), status=200, content_type='application/json')
+        #wygenerowanie nowego hasla
+        user.password = generate_password_hash(form.cleaned_data['password'])
+        user.save()
+        return Response(json.dumps({'success': True}), content_type='application/json')
+    else:
+        error = form.get_errors()
+        return Response(json.dumps(error), status=200, content_type='application/json')
+
 @app.route('/myuser', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')
 @login_required
@@ -225,7 +251,6 @@ def update_myuserinfo():
     else:
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
-
 
 @app.route('/categories', methods=['GET'])
 @crossdomain(origin="http://localhost:5555")

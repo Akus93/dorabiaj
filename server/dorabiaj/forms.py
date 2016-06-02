@@ -203,6 +203,10 @@ class UserForm(ModelForm):
     def check_unique(self):
         pass
 
+class PasswordForm(ModelForm):
+
+    model = User
+    fields = ['oldpassword', 'password', 'confirmpassword']
 
 
 class ClassifiedForm(ModelForm):
