@@ -1,23 +1,5 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
 
-    <div layout-gt-sm="row">
-      <form name="search" (submit)="search()">
-          <md-input-container class="md-block" flex-gt-sm>
-            Miasto
-            <input md-input [(ngModel)]="searchedCity" required>
-          </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
-            Kategoria
-          <select [(ngModel)]="searchedCategory" required id="test">
-            <option *ngFor="#category of categories" [(value)]="category.name">
-              {{category.name}}
-            </option>
-          </select>
-        </md-input-container>
-        <button md-raised-button class="md-raised md-primary" type="submit">Wyszukaj</button>
-      </form>
-    </div>
-
   <div flex="80" layout="column" flex-xs="100">
 
     <!-- classifields -->

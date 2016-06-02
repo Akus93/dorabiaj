@@ -4,7 +4,8 @@ import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
-import {CategoryService} from '../../services/category.service';
+import {UserService} from '../../services/user.service';
+import {User} from '../../services/user';
 
 
 @Component({
@@ -13,28 +14,24 @@ import {CategoryService} from '../../services/category.service';
   styleUrls: ['./components/classifiedsForMe/classifiedsForMe.css'],
   viewProviders: [HTTP_PROVIDERS],
   directives: [ROUTER_DIRECTIVES],
-  providers: [ClassifiedService, CategoryService]
+  providers: [UserService, ClassifiedService]
 })
 export class ClassifiedsForMeCmp implements OnInit {
 
   public classifieds: Classified[];
   public error: string;
-  public searchedCity: string;
-  public searchedCategory: string;
-  public categories: any;
+  public user: User;
 
-  constructor(private router: Router, private _classifiedService: ClassifiedService,
-              private _categoryService: CategoryService) {}
+  constructor(private _userService: UserService, private router: Router, private _classifiedService: ClassifiedService) {}
 
   ngOnInit() {
-    this._classifiedService.getAllClassifieds()
-      .subscribe(
-        results => this.checkResponse(results));
+    this.getUser();
+  }
 
-    this._categoryService.getCategories()
+  getUser() {
+    this._userService.getMyUser()
       .subscribe(
-        results => this.setCategories(results)
-      );
+        result => this.checkResponseUser(result));
   }
 
   checkResponse(res) {
@@ -45,19 +42,18 @@ export class ClassifiedsForMeCmp implements OnInit {
       }
     }
 
-  setCategories(res) {
+  checkResponseUser(res) {
     if (res.hasOwnProperty('error')) {
       this.error = res.error;
     } else {
-      this.categories = res;
+      this.user = res;
+      this._classifiedService.getSearchResults(this.user.city, this.user.interests[0])
+        .subscribe(
+          results => this.checkResponse(results));
     }
   }
 
   onSelect(classified: Classified) {
     this.router.navigate(['/ShowClassified', {id: classified._id.$oid}]);
-  }
-
-  search() {
-    this.router.navigate(['Search', {city: this.searchedCity, category: this.searchedCategory}]);
   }
 }

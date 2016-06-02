@@ -41,10 +41,18 @@ export class EditClassifiedCmp implements OnInit {
     }
   }
 
+  checkResponseChenge(res) {
+    if (res.hasOwnProperty('error')) {
+      this.error = res.error;
+    } else {
+      this._router.navigate(['Home']);
+    }
+  }
+
   saveChanges() {
     this._classifiedService.changeClassified(this._id, this.classified)
       .subscribe(
-        result => this.checkResponse(result));
+        result => this.checkResponseChenge(result));
   }
 
   cancel() {

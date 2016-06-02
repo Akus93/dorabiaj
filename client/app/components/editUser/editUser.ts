@@ -54,16 +54,24 @@ export class EditUserCmp implements OnInit {
     }
   }
 
+  checkResponseChenge(res) {
+    if (res.hasOwnProperty('error')) {
+      this.error = res.error;
+    } else {
+      this._router.navigate(['Home']);
+    }
+  }
+
   changeUser() {
     this._userService.changeMyUser(this.user2)
       .subscribe(
-        result => this.checkResponse(result));
+        result => this.checkResponseChenge(result));
   }
 
   changePassword() {
     this._userService.changePassword(this.password)
       .subscribe(
-        result => this.checkResponse(result));
+        result => this.checkResponseChenge(result));
   }
 
   setCategories(res) {
