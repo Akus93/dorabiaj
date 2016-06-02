@@ -260,22 +260,32 @@ def add_offer():
         classified = Classified.objects.get(pk=classified_id)
     except Classified.DoesNotExist:
         return Response(json.dumps({'error': 'Nie ma takiego ogłoszenia'}), status=200, content_type='application/json')
-    try:
-        Classified.objects.get(pk=classified_id, offers__owner_nick=owner_nick)
-        return Response(json.dumps({'error': 'Już dodałeś swoją oferte'}), status=200, content_type='application/json')
-    except Classified.DoesNotExist:
-        pass
     if float(price) < 0:
         return Response(json.dumps({'error': 'Niepoprawna kwota'}), status=200, content_type='application/json')
     if float(price) > classified.budget:
         return Response(json.dumps({'error': 'Za duża kwota'}), status=200, content_type='application/json')
     new_offer = Offer(owner_nick=owner_nick, price=price)
-    classified.offers.append(new_offer)
-    classified.save()
+    try:
+        Classified.objects.get(pk=classified_id, offers__owner_nick=owner_nick)
+        Classified.objects(pk=classified_id, offers__owner_nick=new_offer.owner_nick).update_one(set__offers__S=new_offer)
+        return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+    except Classified.DoesNotExist:
+        classified.offers.append(new_offer)
+        classified.save()
+        return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+
+
+@app.route('/offer/select', methods=['POST'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def select_offer():
+    classified_id = request.form['classifiedId']
+    user_nick = request.form['username']
+    owner = get_user()
+    if Classified.objects(pk=classified_id, offers__is_accepted=True).count():
+        return Response(json.dumps({'error': 'Już wybrano oferte.'}), status=200, content_type='application/json')
+    try:
+        classified = Classified.objects(pk=classified_id, offers__owner_nick=user_nick).update(set__offers__S__is_accepted=True)
+    except Classified.DoesNotExist:
+        return Response(json.dumps({'error': 'Nie ma takiej oferty'}), status=200, content_type='application/json')
     return Response(json.dumps({'success': True}), status=200, content_type='application/json')
-
-
-# @app.route('//add', methods=['POST'])
-# @crossdomain(origin="http://localhost:5555")
-# @login_required
-# def add_offer():

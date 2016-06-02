@@ -19,7 +19,7 @@ export class EditUserCmp implements OnInit {
   public password = {
     password: '',
     password2: ''
-  }
+  };
   public user2 = {
     first_name: '',
     last_name: '',
@@ -27,7 +27,7 @@ export class EditUserCmp implements OnInit {
     interests: ''
   };
 
-  constructor(private _userService: UserService, private _router: Router, private _categoryService: CategoryService,) {
+  constructor(private _userService: UserService, private _router: Router, private _categoryService: CategoryService) {
     this.user = new User();
   }
 

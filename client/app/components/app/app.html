@@ -3,12 +3,13 @@
     <nav class="md-toolbar-tools">
       <button md-button alt="Home" class="md-icon-button" [routerLink]="['/Home']"><i class="" md-icon>home</i></button>
       <h1 flex class="link" [routerLink]="['/Home']">Dorabiaj.pl</h1>
-      <span [hidden]="checkLogin()==false"><button md-button [routerLink]="['/AddClassified']">Dodaj ogłoszenie</button></span>
-      <span [hidden]="checkLogin()==false"><button md-button [routerLink]="['/MyClassifieds']">Moje ogłoszenia</button></span>
       <span [hidden]="checkLogin()"><button md-button  [routerLink]="['/Login']">Zaloguj</button></span>
       <span [hidden]="checkLogin()"><button md-button [routerLink]="['/Registration']">Zarejestruj</button></span>
-      <span [hidden]="checkLogin()==false"><button md-button [routerLink]="['/EditUser']">Ustawienia</button></span>
-      <span [hidden]="checkLogin()==false"><button md-button [routerLink]="['/Logout']">Wyloguj</button></span>
+      <span [hidden]="checkLogin()==false"><button md-button alt="Ogłoszenia dla mnie" [routerLink]="['/ClassifiedsForMe']">Ogłoszenia dla mnie</button></span>
+      <span [hidden]="checkLogin()==false"><button md-button alt="Moje ogłoszenia" [routerLink]="['/MyClassifieds']">Moje ogłoszenia</button></span>
+      <span [hidden]="checkLogin()==false"><button md-button alt="Dodaj ogłoszenie" class="md-icon-button" [routerLink]="['/AddClassified']"><i class="" md-icon>fiber_new</i></button></span>
+      <span [hidden]="checkLogin()==false"><button md-button alt="Ustawienia" class="md-icon-button" [routerLink]="['/EditUser']"><i class="" md-icon>settings</i></button></span>
+      <span [hidden]="checkLogin()==false"><button md-button alt="Wyloguj" class="md-icon-button" [routerLink]="['/Logout']"><i class="" md-icon>power_settings_new</i></button></span>
     </nav>
   </md-toolbar>
 

@@ -35,7 +35,7 @@
           </tbody>
         </md-data-table>
         <br>
-        <button md-raised-button class="md-raised md-primary" (click)="changeAddOfferShow()">Dodaj swoją oferte</button>
+        <button md-raised-button class="md-raised md-primary" (click)="changeAddOfferShow()">Dodaj/Edytuj swoją oferte</button>
         <div [hidden]="addOfferShow==false">
             <form name="offerForm" (submit)="addOffer()">
             <span [hidden]="offerError==false">{{offerError}}</span><br><br>

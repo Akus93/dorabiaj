@@ -1,6 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
-import {Classified} from '../../services/classified';
+import {Classified, Offer} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
 
 
@@ -8,6 +8,7 @@ import {ClassifiedService} from '../../services/classified.service';
   selector: 'my-classified',
   templateUrl: './components/myClassifieds/myClassifieds.html',
   styleUrls: ['./components/myClassifieds/myClassifieds.css'],
+  directives: [ROUTER_DIRECTIVES],
   viewProviders: [ROUTER_DIRECTIVES],
   providers: [ClassifiedService]
 })
@@ -15,8 +16,9 @@ export class MyClassifiedsCmp implements OnInit {
 
   public classifieds: Classified[];
   public error: string;
+  public offerError:string;
 
-    constructor(private router: Router, private _classifiedService: ClassifiedService) {}
+    constructor(public router: Router, private _classifiedService: ClassifiedService) {}
 
   ngOnInit() {
     this._classifiedService.getMyClassifieds()
@@ -56,5 +58,22 @@ export class MyClassifiedsCmp implements OnInit {
   edit(classified: Classified) {
     this.router.navigate(['/EditClassified', {id: classified._id.$oid}]);
   }
+
+  selectOffer(classified: Classified, user: string) {
+    this._classifiedService.selectOffer(classified, user)
+      .subscribe(
+        response => this.selectOfferResponse(response)
+      );
+  }
+    selectOfferResponse(res) {
+      if (res.hasOwnProperty('error')) {
+        this.offerError = res.error;
+        //this._router.navigate(['Home']);
+      } else {
+        alert("Wybrano!");
+      }
+    }
+
+
 
 }

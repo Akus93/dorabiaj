@@ -2,7 +2,7 @@ import {Injectable}     from 'angular2/core';
 import {Http, Response, Headers} from 'angular2/http';
 import {Observable}     from 'rxjs/Observable';
 import 'rxjs/Rx';
-import {Classified} from './classified';
+import {Classified, Offer} from './classified';
 
 @Injectable()
 export class ClassifiedService {
@@ -83,6 +83,17 @@ export class ClassifiedService {
       .catch(this.handleError);
   }
 
+  selectOffer(classified: Classified, user: string): Observable<JSON> {
+    var body = 'classifiedId=' + classified._id.$oid + '&username=' + user;
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(this._domain + 'offer/select', body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);
@@ -96,4 +107,7 @@ export class ClassifiedService {
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
+
+
+
 }
