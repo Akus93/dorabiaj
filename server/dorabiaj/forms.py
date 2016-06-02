@@ -196,16 +196,12 @@ class RegisterForm(ModelForm):
 class UserForm(ModelForm):
 
     model = User
-    fields = ['username', 'email', 'first_name', 'last_name', 'city', 'interests', ]
+    fields = ['first_name', 'last_name', 'city', 'interest', ]
     #['username', 'email', 'first_name', 'last_name', 'city' ]
     # email = ['email', ]
     # możliwość podstawienia username, email istniejącego już w bazie
     def check_unique(self):
-        if self.unique:
-            for value in self.unique.keys():
-                if not self.error.get(value):
-                    param = {value: self.cleaned_data[value]}
-                    obj = self.model.objects.filter(**param).count()
+        pass
 
 
 

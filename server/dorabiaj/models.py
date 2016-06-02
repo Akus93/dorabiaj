@@ -34,7 +34,7 @@ class User(db.Document):
     first_name = db.StringField(max_length=64, required=True)
     last_name = db.StringField(max_length=64, required=True)
     city = db.StringField(max_length=64, required=True)
-    interests = db.StringField()
+    interests = db.ListField(db.StringField())
     ranks = db.ListField(db.EmbeddedDocumentField(Rank))
     tokens = db.IntField(default=0, require=True)
     is_superuser = db.BooleanField(default=False, require=True)

@@ -213,17 +213,14 @@ def get_myuserinfo():
 def update_myuserinfo():
     user = get_user()
     # walidacja formularza edycji
-    form = UserForm(request.form)
+    form = UserForm(data=request.form)
     if form.is_vailid():
-        try:
-            user.first_name = form.data['first_name']
-            user.last_name = form.data['last_name']
-            user.city = form.data['city']
-            user.interests = form.data['interests']
-            user.save()
-        except:
-            error = {'error': 'Edycja nie powiodla sie'}
-            return Response(json.dumps(error), status=200, content_type='application/json')
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.city = form.cleaned_data['city']
+        interest = request.form['interest']
+        user.interests.append(interest)
+        user.save()
         return Response(json.dumps({'success': True}), content_type='application/json')
     else:
         error = form.get_errors()
