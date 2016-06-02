@@ -78,7 +78,7 @@ export class ClassifiedService {
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.put(this._domain + 'classified/'+ id, body, {headers: headers})
+    return this.http.post(this._domain + 'changeClassified/'+ id, body, {headers: headers})
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -93,7 +93,7 @@ export class ClassifiedService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-  
+
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);

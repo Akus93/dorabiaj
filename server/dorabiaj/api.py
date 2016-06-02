@@ -207,7 +207,7 @@ def get_myuserinfo():
     return Response(json.dumps(user_info), status=200, content_type='application/json')
 
 
-@app.route('/myuser/password', methods=['PUT'])
+@app.route('/myuser/password', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
 @login_required
 def update_myuserpassword():

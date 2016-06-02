@@ -70,7 +70,7 @@ export class MyClassifiedsCmp implements OnInit {
         this.offerError = res.error;
         //this._router.navigate(['Home']);
       } else {
-        alert("Wybrano!");
+        alert('Wybrano!');
       }
     }
 

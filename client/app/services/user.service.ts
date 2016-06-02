@@ -25,10 +25,9 @@ export class UserService {
       .catch(this.handleError);
   }
 
-  changeMyUser(user: User): Observable<JSON> {
-    var body = 'username=' + user['username'] + '&email=' + user['email'] + '&password=' +
-      user['password'] + '&password2=' + user['password2'] + '&city=' + user['city'] + '&first_name=' +
-      user['first_name'] + '&last_name=' + user['last_name'];
+  changeMyUser(user): Observable<JSON> {
+    var body = 'first_name=' + user['first_name'] + '&last_name=' + user['last_name'] +
+      '&city=' + user['city'] + '&interest=' + user['interest'];
 
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -39,12 +38,13 @@ export class UserService {
   }
 
   changePassword(password): Observable<JSON> {
-    var body = 'password=' + password['password'] + '&password2=' + password['password2'];
+    var body = 'oldpassword=' + password['oldpassword'] + '&password=' + password['password']
+      + '&confirmpassword=' + password['confirmpassword'];
 
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.put('http://localhost:5000/changePassword/', body, {headers: headers})
+    return this.http.post('http://localhost:5000/myuser/password', body, {headers: headers})
       .map(this.extractData)
       .catch(this.handleError);
   }

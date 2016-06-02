@@ -11,14 +11,21 @@
     <form name="changePasswordForm" (submit)="changePassword()">
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Hasło</label>
+          <label>Stare Hasło</label>
+          <span [hidden]="error['password']==false">{{error['password']}}</span>
+          <input md-input id="password" [(ngModel)]="password.oldpassword" type="password" required>
+        </md-input-container>
+      </div>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Nowe Hasło</label>
           <span [hidden]="error['password']==false">{{error['password']}}</span>
           <input md-input id="password" [(ngModel)]="password.password" type="password" required>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Powtórz hasło</label>
+          <label>Potwierdź nowe hasło</label>
           <span [hidden]="error['password2']==false">{{error['password2']}}</span>
-          <input md-input id="password2" [(ngModel)]="password.password2" type="password" required>
+          <input md-input id="password2" [(ngModel)]="password.confirmpassword" type="password" required>
         </md-input-container>
       </div>
       <button md-raised-button class="md-raised md-warn" (click)="cancel()">Anuluj</button>
@@ -44,7 +51,7 @@
           <input md-input id="city" [(ngModel)]="user2.city" value="" required>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
-          <select [(ngModel)]="user2.interests" required id="test">
+          <select [(ngModel)]="user2.interest" required id="test">
             <option *ngFor="#category of categories" [(value)]="category.name">
               {{category.name}}
             </option>

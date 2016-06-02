@@ -17,14 +17,15 @@ export class EditUserCmp implements OnInit {
   public error = {};
   public categories;
   public password = {
+    oldpassword: '',
     password: '',
-    password2: ''
+    confirmpassword: ''
   };
   public user2 = {
     first_name: '',
     last_name: '',
     city: '',
-    interests: ''
+    interest: ''
   };
 
   constructor(private _userService: UserService, private _router: Router, private _categoryService: CategoryService) {
@@ -54,7 +55,7 @@ export class EditUserCmp implements OnInit {
   }
 
   changeUser() {
-    this._userService.changeMyUser(this.user)
+    this._userService.changeMyUser(this.user2)
       .subscribe(
         result => this.checkResponse(result));
   }

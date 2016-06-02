@@ -16,7 +16,7 @@ import {SearchCmp} from '../search/search';
 import {LogoutCmp} from '../logout/logout';
 import {EditClassifiedCmp} from '../editClassified/editClassified';
 import {EditUserCmp} from '../editUser/editUser';
-import {ClassifiedsForMeCmp} from '../classifiedsForMe/classifiedsForMe'
+import {ClassifiedsForMeCmp} from '../classifiedsForMe/classifiedsForMe';
 
 
 @Component({
