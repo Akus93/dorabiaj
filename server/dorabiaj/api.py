@@ -118,6 +118,18 @@ def delete_classified(id):
         pass
     return Response(json.dumps({'success': True}), content_type='application/json')
 
+@app.route('/classified/inappropriate/<id>', methods=['POST'])
+@crossdomain(origin='http://localhost:5555')
+@login_required
+def set_classified_as_inappropriate(id):
+    try:
+        classified = Classified.objects.get(id=id)
+    except Classified.DoesNotExist:
+        pass
+
+    classified.is_inappropriate = True
+    classified.save()
+    return Response(json.dumps({'success': True}), content_type='application/json')
 
 @app.route('/classified/<id>', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')

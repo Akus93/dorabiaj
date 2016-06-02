@@ -81,6 +81,7 @@ class Classified(db.Document):
     offers = db.ListField(db.EmbeddedDocumentField(Offer))
     phone = db.StringField()
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+    is_inappropriate = db.BooleanField(default=False)
 
 
 
