@@ -102,8 +102,17 @@ export class ClassifiedService {
 
   getMyUnacceptedOffers(): Observable<JSON> {
     return this.http.get(this._domain + 'myoffers/unaccepted')
-                  .map(this.extractData)
-                  .catch(this.handleError);
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  setInappropriate(id): Observable<JSON> {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(this._domain + 'classified/inappropriate/'+ id, '', {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   private extractData(res: Response) {

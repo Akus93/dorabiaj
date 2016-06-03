@@ -61,4 +61,18 @@ export class ShowClassifiedCmp implements OnInit {
         this.router.navigate(['Home']);
       }
     }
+
+  inappropriate(classified: Classified) {
+    this._classifiedService.setInappropriate(classified._id.$oid)
+      .subscribe(
+        result => this.checkInappropriateResponse(result));
+  }
+
+  checkInappropriateResponse(res) {
+    if (res.hasOwnProperty('error')) {
+      this.offerError = res.error;
+    } else {
+      alert("Zgłoszono nieodpowiednia tresc do administracji.");
+    }
+  }
 }
