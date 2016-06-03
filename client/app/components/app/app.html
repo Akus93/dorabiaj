@@ -7,6 +7,7 @@
       <span [hidden]="checkLogin()"><button md-button [routerLink]="['/Registration']">Zarejestruj</button></span>
       <span [hidden]="checkLogin()==false"><button md-button alt="Ogłoszenia dla mnie" [routerLink]="['/ClassifiedsForMe']">Ogłoszenia dla mnie</button></span>
       <span [hidden]="checkLogin()==false"><button md-button alt="Moje ogłoszenia" [routerLink]="['/MyClassifieds']">Moje ogłoszenia</button></span>
+      <span [hidden]="checkLogin()==false"><button md-button alt="Moje Oferty" [routerLink]="['/MyOffers']">Moje oferty</button></span>
       <span [hidden]="checkLogin()==false"><button md-button alt="Dodaj ogłoszenie" class="md-icon-button" [routerLink]="['/AddClassified']"><i class="" md-icon>fiber_new</i></button></span>
       <span [hidden]="checkLogin()==false"><button md-button alt="Ustawienia" class="md-icon-button" [routerLink]="['/EditUser']"><i class="" md-icon>settings</i></button></span>
       <span [hidden]="checkLogin()==false"><button md-button alt="Wyloguj" class="md-icon-button" [routerLink]="['/Logout']"><i class="" md-icon>power_settings_new</i></button></span>

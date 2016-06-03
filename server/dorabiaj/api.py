@@ -326,3 +326,31 @@ def select_offer():
     except Classified.DoesNotExist:
         return Response(json.dumps({'error': 'Nie ma takiej oferty'}), status=200, content_type='application/json')
     return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+
+
+@app.route('/myoffers/accepted', methods=['GET'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def my_accepted_offers():
+    user = get_user()
+    # classifieds = Classified.objects(offers__owner_nick=user.username)
+    classifieds = Classified.objects(offers__is_accepted=True, offers__owner_nick=user.username)
+    # not_accepted_classifieds = Classified.objects(offers__is_accepted=False, offers__owner_nick=user.username)
+    if not classifieds:
+        return Response(json.dumps({'error': 'Nie masz żadnych ofert.'}), status=200, content_type='application/json')
+    else:
+        return Response(classifieds.to_json(), status=200, content_type='application/json')
+
+
+@app.route('/myoffers/unaccepted', methods=['GET'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def my_unaccepted_offers():
+    user = get_user()
+    # classifieds = Classified.objects(offers__owner_nick=user.username)
+    # classifieds = Classified.objects(offers__is_accepted=True, offers__owner_nick=user.username)
+    classifieds = Classified.objects(offers__is_accepted=False, offers__owner_nick=user.username)
+    if not classifieds:
+        return Response(json.dumps({'error': 'Nie masz żadnych ofert.'}), status=200, content_type='application/json')
+    else:
+        return Response(classifieds.to_json(), status=200, content_type='application/json')

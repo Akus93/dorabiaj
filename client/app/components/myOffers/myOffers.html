@@ -1,0 +1,80 @@
+<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
+  <div flex="80" layout="column" flex-xs="100">
+    <h2>Zaakceptowane:</h2>
+    <span [hidden]="acceptedError==false">{{acceptedError}}</span><br><br>
+    <md-card *ngFor="#classified of acceptedClassifieds">
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">{{ classified.budget }} PLN</span>
+          <span class="md-subhead">{{ classified.city }}</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">{{ classified.title }}</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <p>
+          {{ classified.description }}
+        </p>
+      </md-card-content>
+      <div *ngIf="classified.offers.length > 0">
+          <p>Lista chętnych:</p>
+        <md-data-table>
+          <thead>
+          <tr>
+            <th class="md-text-cell">Użytkownik</th>
+            <th>Cena</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="#offer of classified.offers">
+            <td class="md-text-cell"><a [routerLink]="['UserInfo', { username: offer.owner_nick}]">{{offer.owner_nick}}</a></td>
+            <td>{{ offer.price }} punktów</td>
+            <div *ngIf="offer.is_accepted">Wybrana</div>
+          </tr>
+          </tbody>
+        </md-data-table>
+      </div>
+    </md-card>
+      <h2>Nie zaakceptowane:</h2>
+    <span [hidden]="unacceptedError==false">{{unacceptedError}}</span><br><br>
+    <md-card *ngFor="#classified of unacceptedClassifieds">
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">{{ classified.budget }} PLN</span>
+          <span class="md-subhead">{{ classified.city }}</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">{{ classified.title }}</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <p>
+          {{ classified.description }}
+        </p>
+      </md-card-content>
+      <div *ngIf="classified.offers.length > 0">
+          <p>Lista chętnych:</p>
+        <md-data-table>
+          <thead>
+          <tr>
+            <th class="md-text-cell">Użytkownik</th>
+            <th>Cena</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="#offer of classified.offers">
+            <td class="md-text-cell"><a [routerLink]="['UserInfo', { username: offer.owner_nick}]">{{offer.owner_nick}}</a></td>
+            <td>{{ offer.price }} punktów</td>
+            <div *ngIf="offer.is_accepted">Wybrana</div>
+          </tr>
+          </tbody>
+        </md-data-table>
+      </div>
+    </md-card>
+  </div>
+</md-content>

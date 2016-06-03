@@ -193,6 +193,7 @@ class RegisterForm(ModelForm):
         self.cleaned_data['password'] = generate_password_hash(self.cleaned_data['password'])
         return super(RegisterForm, self).save()
 
+
 class UserForm(ModelForm):
 
     model = User
@@ -207,7 +208,6 @@ class PasswordForm(ModelForm):
 
     model = User
     fields = ['oldpassword', 'password', 'confirmpassword']
-
 
 class ClassifiedForm(ModelForm):
     model = Classified

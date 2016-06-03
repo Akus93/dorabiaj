@@ -33,6 +33,7 @@
             <td class="md-text-cell"><a [routerLink]="['UserInfo', { username: offer.owner_nick}]">{{offer.owner_nick}}</a></td>
             <td>{{ offer.price }} punktów</td>
             <td><button md-raised-button class="md-raised md-primary" (click)="selectOffer(classified, offer.owner_nick)">Wybierz</button></td>
+            <div *ngIf="offer.is_accepted">Wybrana</div>
           </tr>
           </tbody>
         </md-data-table>

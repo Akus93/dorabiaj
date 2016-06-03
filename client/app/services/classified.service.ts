@@ -94,6 +94,18 @@ export class ClassifiedService {
       .catch(this.handleError);
   }
 
+  getMyAcceptedOffers(): Observable<JSON> {
+    return this.http.get(this._domain + 'myoffers/accepted')
+                  .map(this.extractData)
+                  .catch(this.handleError);
+  }
+
+  getMyUnacceptedOffers(): Observable<JSON> {
+    return this.http.get(this._domain + 'myoffers/unaccepted')
+                  .map(this.extractData)
+                  .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);

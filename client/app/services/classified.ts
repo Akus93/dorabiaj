@@ -12,6 +12,7 @@ export class Classified {
   begin_date: string;
   end_date: string;
   phone: string;
+  is_inappropriate: boolean;
   offers: Offer[];
 }
 
