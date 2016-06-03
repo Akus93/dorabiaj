@@ -182,9 +182,8 @@ def post_classified():
 @login_required
 def my_classifields():
     user = get_user()
-    try:
-        classifieds = Classified.objects.filter(owner=user).order_by('-created_at')
-    except Classified.DoesNotExist:
+    classifieds = Classified.objects.filter(owner=user).order_by('-created_at')
+    if not classifieds:
         error = {'error': 'Brak ogloszen'}
         return Response(json.dumps(error), status=200, content_type='application/json')
     return Response(classifieds.to_json(), status=200, content_type='application/json')
