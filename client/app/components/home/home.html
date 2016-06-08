@@ -3,12 +3,13 @@
     <div layout-gt-sm="row">
       <form name="search" (submit)="search()">
           <md-input-container class="md-block" flex-gt-sm>
-            Miasto
-            <input md-input [(ngModel)]="searchedCity" required>
+            <label for="city">Miasto</label>
+            <input id="city" md-input [(ngModel)]="searchedCity" required>
+
           </md-input-container>
           <md-input-container class="md-block" flex-gt-sm>
-            Kategoria
-          <select [(ngModel)]="searchedCategory" required id="test">
+          <label for="category">Kategoria</label>
+          <select id="category" [(ngModel)]="searchedCategory" required id="test">
             <option *ngFor="#category of categories" [(value)]="category.name">
               {{category.name}}
             </option>

@@ -3,16 +3,17 @@
   <md-content layout-padding>
     <form name="userForm" (submit)="saveChanges()">
       <div layout-gt-sm="row">
-        <p>{{ classified.title }}</p>
+        <h4>{{ classified.title }}</h4>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Opis</label>
-          <textarea md-input [(ngModel)]="classified.description" required columns="2" md-maxlength="300" rows="5"></textarea>
+          <textarea md-input [(ngModel)]="classified.description" required columns="2" maxlength="300" rows="7"></textarea>
         </md-input-container>
       </div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
+          <label>Budżet</label>
           <input md-input [(ngModel)]="classified.budget" required>
         </md-input-container>
       </div>

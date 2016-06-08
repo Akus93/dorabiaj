@@ -19,21 +19,23 @@
       <md-card-content>
         <p>{{ classified.description }}</p>
         <p>Numer telefonu: {{ classified.phone }}</p>
-        <p>Lista chętnych:</p>
-        <md-data-table layout-fill>
-          <thead>
-          <tr>
-            <th class="md-text-cell">Użytkownik</th>
-            <th>Cena</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="#offer of classified.offers">
-            <td class="md-text-cell"><a [routerLink]="['UserInfo', { username: offer.owner_nick}]">{{offer.owner_nick}}</a></td>
-            <td>{{ offer.price }}</td>
-          </tr>
-          </tbody>
-        </md-data-table>
+
+          <p>Lista chętnych:</p>
+          <md-data-table layout-fill>
+            <thead>
+            <tr>
+              <th class="md-text-cell">Użytkownik</th>
+              <th>Cena</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="#offer of classified.offers">
+              <td class="md-text-cell"><a [routerLink]="['UserInfo', { username: offer.owner_nick}]">{{offer.owner_nick}}</a></td>
+              <td>{{ offer.price }}</td>
+            </tr>
+            </tbody>
+          </md-data-table>
+
         <br>
         <button md-raised-button class="md-raised md-primary" (click)="changeAddOfferShow()">Dodaj/Edytuj swoją oferte</button>
         <div [hidden]="addOfferShow==false">
@@ -48,8 +50,9 @@
             <button md-raised-button class="md-raised md-primary" type="submit">Zatwierdź</button>
           </form>
         </div>
+        <button flex="50" md-raised-button class="md-raised md-primary" (click)="inappropriate(classified)">Zgłoś jako nieodpowiednia treść</button>
       </md-card-content>
-      <button flex="50" md-raised-button class="md-raised md-primary" (click)="inappropriate(classified)">Zgłoś jako nieodpowiednia treść</button>
     </md-card>
+
   </div>
 </md-content>

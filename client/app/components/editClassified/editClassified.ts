@@ -1,5 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams, ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
 
@@ -9,6 +11,7 @@ import {ClassifiedService} from '../../services/classified.service';
   templateUrl: './components/editClassified/editClassified.html',
   styleUrls: ['./components/editClassified/editClassified.css'],
   viewProviders: [ROUTER_DIRECTIVES],
+  directives: [ MATERIAL_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES],
   providers: [ClassifiedService]
 })
 export class EditClassifiedCmp implements OnInit {

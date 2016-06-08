@@ -1,5 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {UserService} from '../../services/user.service';
 import {User} from '../../services/user';
 import {CategoryService} from '../../services/category.service';
@@ -9,6 +11,7 @@ import {CategoryService} from '../../services/category.service';
   templateUrl: './components/editUser/editUser.html',
   styleUrls: ['./components/editUser/editUser.css'],
   viewProviders: [ROUTER_DIRECTIVES],
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, MATERIAL_DIRECTIVES],
   providers: [UserService, CategoryService]
 })
 export class EditUserCmp implements OnInit {

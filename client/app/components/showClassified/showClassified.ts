@@ -1,5 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
 
@@ -8,7 +10,7 @@ import {ClassifiedService} from '../../services/classified.service';
   selector: 'show-classified',
   templateUrl: './components/showClassified/showClassified.html',
   styleUrls: ['./components/showClassified/showClassified.css'],
-  directives: [ROUTER_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, MATERIAL_DIRECTIVES],
   providers: [ClassifiedService]
 })
 export class ShowClassifiedCmp implements OnInit {
@@ -39,6 +41,7 @@ export class ShowClassifiedCmp implements OnInit {
     this._classifiedService.addOffer(this.classified._id.$oid, this.offerPrice)
       .subscribe(
         result => this.checkOfferResponse(result));
+    this.getClassified(this._id);
   }
 
   changeAddOfferShow() {
@@ -58,7 +61,8 @@ export class ShowClassifiedCmp implements OnInit {
       if (res.hasOwnProperty('error')) {
         this.offerError = res.error;
       } else {
-        this.router.navigate(['Home']);
+        alert("Dodano ofertę");
+        this.changeAddOfferShow();
       }
     }
 

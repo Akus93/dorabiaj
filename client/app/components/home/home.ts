@@ -1,6 +1,8 @@
 import {Component, OnInit} from 'angular2/core';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 
 import {Classified} from '../../services/classified';
 import {ClassifiedService} from '../../services/classified.service';
@@ -12,7 +14,7 @@ import {CategoryService} from '../../services/category.service';
   templateUrl: './components/home/home.html',
   styleUrls: ['./components/home/home.css'],
   viewProviders: [HTTP_PROVIDERS],
-  directives: [ROUTER_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, MATERIAL_DIRECTIVES],
   providers: [ClassifiedService, CategoryService]
 })
 export class HomeCmp implements OnInit {
