@@ -94,6 +94,17 @@ export class ClassifiedService {
       .catch(this.handleError);
   }
 
+  pay(classified: Classified, user: string): Observable<JSON> {
+    var body = 'classifiedId=' + classified._id.$oid + '&username=' + user;
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(this._domain + 'pay', body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   getMyAcceptedOffers(): Observable<JSON> {
     return this.http.get(this._domain + 'myoffers/accepted')
                   .map(this.extractData)

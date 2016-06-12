@@ -80,6 +80,7 @@ class Classified(db.Document):
     end_date = db.StringField(required=True)
     offers = db.ListField(db.EmbeddedDocumentField(Offer))
     phone = db.StringField()
+    is_paid = db.BooleanField(default=False)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     is_inappropriate = db.BooleanField(default=False)
 

@@ -17,7 +17,7 @@
           {{ classified.description }}
         </p>
       </md-card-content>
-      <div *ngIf="classified.offers.length > 0" layout-sm="row">
+      <div *ngIf="!classified.is_paid" layout-sm="row">
           <p>Lista chętnych:</p>
         <md-data-table>
           <thead>
@@ -34,6 +34,7 @@
             <td>{{ offer.price }} punktów</td>
             <td *ngIf="!offer.is_accepted"><button md-raised-button class="md-raised md-primary" (click)="selectOffer(classified, offer.owner_nick)">Wybierz</button></td>
             <td *ngIf="offer.is_accepted">Wybrana</td>
+            <div *ngIf="offer.is_accepted"><button md-raised-button class="md-raised md-primary" (click)="pay(classified, offer.owner_nick)">Zapłać</button></div>
           </tr>
           </tbody>
         </md-data-table>

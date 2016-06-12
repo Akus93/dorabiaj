@@ -64,6 +64,7 @@ export class MyClassifiedsCmp implements OnInit {
       .subscribe(
         response => this.selectOfferResponse(response)
       );
+    this.ngOnInit();
   }
     selectOfferResponse(res) {
       if (res.hasOwnProperty('error')) {
@@ -74,6 +75,23 @@ export class MyClassifiedsCmp implements OnInit {
       }
     }
 
+  pay(classified, user) {
+    this._classifiedService.pay(classified, user)
+      .subscribe(
+        response => this.payResponse(response)
+      );
+    this.ngOnInit();
+  }
+
+  payResponse(res) {
+    if (res.hasOwnProperty('error')) {
+      alert(res.error);
+      //this._router.navigate(['Home']);
+    } else {
+      alert('Zapłacono!');
+      //MIEJSCE NA PRZEKIEROWANIE DO DODAWANIA KOMENTARZA
+    }
+  }
 
 
 }

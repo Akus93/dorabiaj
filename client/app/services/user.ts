@@ -8,10 +8,16 @@ export class User {
     admin: boolean;
     interests: string[];
     opinions: Opinion[];
+    ranks: Rank[];
 
   getFullName() {
     return this.firstName + ' ' + this.lastName;
   }
+}
+
+export class Rank {
+  category:string;
+  points:number;
 }
 
 export class Opinion {

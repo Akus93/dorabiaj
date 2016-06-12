@@ -13,6 +13,7 @@ export class Classified {
   end_date: string;
   phone: string;
   is_inappropriate: boolean;
+  is_paid: boolean;
   offers: Offer[];
 }
 

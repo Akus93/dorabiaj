@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import app
 from .models import User, DBSession, Classified, Category, Offer
-from .functions import is_authorized, get_user, login_required, crossdomain, pl_to_en
+from .functions import is_authorized, get_user, login_required, crossdomain, pl_to_en, transfer_tokens
 from .forms import RegisterForm, ClassifiedForm, UserForm, PasswordForm
 
 
@@ -118,6 +118,7 @@ def delete_classified(id):
         pass
     return Response(json.dumps({'success': True}), content_type='application/json')
 
+
 @app.route('/classified/inappropriate/<id>', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
 @login_required
@@ -130,6 +131,7 @@ def set_classified_as_inappropriate(id):
     classified.is_inappropriate = True
     classified.save()
     return Response(json.dumps({'success': True}), content_type='application/json')
+
 
 @app.route('/classified/<id>', methods=['PUT'])
 @crossdomain(origin='http://localhost:5555')
@@ -214,7 +216,7 @@ def get_myuserinfo():
         return Response(json.dumps(error), status=200, content_type='application/json')
     user_info = {'username': user.username, 'email': user.email, 'firstName': user.first_name, 'interests': user.interests,
                  'lastName': user.last_name, 'city': user.city, 'admin': user.is_superuser, 'tokens': user.tokens,
-                 'opinions': user.opinions}
+                 'opinions': user.opinions, 'ranks': user.ranks}
     return Response(json.dumps(user_info), status=200, content_type='application/json')
 
 
@@ -244,6 +246,7 @@ def update_myuserpassword():
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
 
+
 @app.route('/changeMyUser', methods=['POST'])
 @crossdomain(origin='http://localhost:5555')
 @login_required
@@ -262,6 +265,7 @@ def update_myuserinfo():
     else:
         error = form.get_errors()
         return Response(json.dumps(error), status=200, content_type='application/json')
+
 
 @app.route('/categories', methods=['GET'])
 @crossdomain(origin="http://localhost:5555")
@@ -332,9 +336,7 @@ def select_offer():
 @login_required
 def my_accepted_offers():
     user = get_user()
-    # classifieds = Classified.objects(offers__owner_nick=user.username)
     classifieds = Classified.objects(offers__is_accepted=True, offers__owner_nick=user.username)
-    # not_accepted_classifieds = Classified.objects(offers__is_accepted=False, offers__owner_nick=user.username)
     if not classifieds:
         return Response(json.dumps({'error': 'Nie masz żadnych ofert.'}), status=200, content_type='application/json')
     else:
@@ -346,10 +348,31 @@ def my_accepted_offers():
 @login_required
 def my_unaccepted_offers():
     user = get_user()
-    # classifieds = Classified.objects(offers__owner_nick=user.username)
-    # classifieds = Classified.objects(offers__is_accepted=True, offers__owner_nick=user.username)
     classifieds = Classified.objects(offers__is_accepted=False, offers__owner_nick=user.username)
     if not classifieds:
         return Response(json.dumps({'error': 'Nie masz żadnych ofert.'}), status=200, content_type='application/json')
     else:
         return Response(classifieds.to_json(), status=200, content_type='application/json')
+
+
+@app.route('/pay', methods=['POST'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def pay():
+    classified_id = request.form['classifiedId']
+    user_nick = request.form['username']
+    user = User.objects.get(username=user_nick)
+    owner = get_user()
+    classified = Classified.objects.get(pk=classified_id)
+    tokens = None
+    for offer in classified.offers:
+        if offer.owner_nick == user_nick:
+            tokens = offer.price
+            break
+    if transfer_tokens(owner, user, tokens, classified.category):
+        classified.is_paid = True
+        classified.save()
+        return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+    else:
+        return Response(json.dumps({'error': 'Wystąpił błąd, spróbuj jeszcze raz.'}), status=200, content_type='application/json')
+
