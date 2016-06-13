@@ -3,7 +3,7 @@ from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import app
-from .models import User, DBSession, Classified, Category, Offer
+from .models import User, DBSession, Classified, Category, Offer, Opinion
 from .functions import is_authorized, get_user, login_required, crossdomain, pl_to_en, transfer_tokens
 from .forms import RegisterForm, ClassifiedForm, UserForm, PasswordForm
 
@@ -376,3 +376,63 @@ def pay():
     else:
         return Response(json.dumps({'error': 'Wystąpił błąd, spróbuj jeszcze raz.'}), status=200, content_type='application/json')
 
+
+#not working yet
+@app.route('/opinion', methods=['POST'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def add_opinion():
+    try:
+        classified_id = request.form['classifiedId']
+        print(classified_id)
+        description = request.form['description']
+        print(description)
+        string_rank = request.form['rank']
+
+        rank =  int(string_rank)
+        owner = get_user()
+    except:
+        return Response(json.dumps({'error': 'Błąd danych'}), status=200, content_type='application/json')
+
+    classified = Classified.objects(id=classified_id, offers__is_accepted = True)
+
+    if not classified:
+        return Response(json.dumps({'error': 'Nie ma takiego ogłoszenia'}), status=200, content_type='application/json')
+
+    try:
+        # classified.objects.filter({ offers: { $elemMatch: { is_accepted: True } } })
+        accepted_user = classified.offers[0].owner_nick
+
+        print(accepted_user)
+        category = classified.category
+        print(category)
+        new_opinion = Opinion(owner_nick=owner.username, description=description, rank=rank, category=category)
+        print(new_opinion)
+        accepted_user.opinions.append(new_opinion)
+        accepted_user.save()
+    except:
+        return Response(json.dumps({'error': 'Nie dodano opinii.'}), status=200, content_type='application/json')
+    try:
+        classified.delete()
+    except:
+        return Response(json.dumps({'error': 'Nie usinięto ogłoszenie po dodaniu opinii.'}), status=200, content_type='application/json')
+
+    return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+
+@app.route('/opinions/<username>', methods=['GET'])
+@crossdomain(origin="http://localhost:5555")
+#@login_required
+def get_user_opinion(username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        error = {'error': 'Nie ma takiego użytkownika'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    opinions = user.opinions
+    if not opinions:
+        error = {'error': 'Nie ma żadnych opinii'}
+        return Response(json.dumps(error), status=200, content_type='application/json')
+    #print(user.opinions)
+    #print(user)
+    #return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+    return Response(opinions.to_json(), status=200, content_type='application/json')
