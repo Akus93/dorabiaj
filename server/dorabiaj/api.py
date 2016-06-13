@@ -389,29 +389,26 @@ def add_opinion():
         print(description)
         string_rank = request.form['rank']
 
-        rank =  int(string_rank)
+        rank = int(string_rank)
         owner = get_user()
     except:
         return Response(json.dumps({'error': 'Błąd danych'}), status=200, content_type='application/json')
 
-    classified = Classified.objects(id=classified_id, offers__is_accepted = True)
+    classified = Classified.objects.get(pk=classified_id, offers__is_accepted = True)
 
     if not classified:
         return Response(json.dumps({'error': 'Nie ma takiego ogłoszenia'}), status=200, content_type='application/json')
 
-    try:
-        # classified.objects.filter({ offers: { $elemMatch: { is_accepted: True } } })
-        accepted_user = classified.offers[0].owner_nick
+    # classified.objects.filter({ offers: { $elemMatch: { is_accepted: True } } })
+    for offer in classified.offers:
+        if offer.is_accepted == True:
+            user_name = offer.owner_nick
 
-        print(accepted_user)
-        category = classified.category
-        print(category)
-        new_opinion = Opinion(owner_nick=owner.username, description=description, rank=rank, category=category)
-        print(new_opinion)
-        accepted_user.opinions.append(new_opinion)
-        accepted_user.save()
-    except:
-        return Response(json.dumps({'error': 'Nie dodano opinii.'}), status=200, content_type='application/json')
+    user = User.objects.get(username=user_name)
+    category = classified.category
+    new_opinion = Opinion(owner_nick=owner.username, description=description, rank=rank, category=category)
+    user.opinions.append(new_opinion)
+    user.save()
     try:
         classified.delete()
     except:
