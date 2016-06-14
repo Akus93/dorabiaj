@@ -5,8 +5,35 @@
 <h5>Miasto: {{user.city}}</h5>
 <h5>Email: {{user.email}}</h5>
 <h5>Zainteresowania: {{user.interests}}</h5>
+<h5>Liczba tokenów: {{user.tokens}}</h5>
 
 <md-content layout-padding>
+    <md-input-container class="md-block" flex-gt-sm>
+    <h3>Kup tokeny</h3>
+    <form name="buyForm" (submit)="buy()">
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Tokeny</label>
+          <input md-input id="buy_amount" [(ngModel)]="buy_amount" required>
+        </md-input-container>
+      </div>
+      <button md-raised-button class="md-raised md-primary">Kup</button>
+    </form>
+    </md-input-container>
+
+    <md-input-container class="md-block" flex-gt-sm>
+    <h3>Wypłać tokeny</h3>
+    <form name="withdrawForm" (submit)="withdraw()">
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Tokeny</label>
+          <input md-input id="withdraw_amount" [(ngModel)]="withdraw_amount" required>
+        </md-input-container>
+      </div>
+      <button md-raised-button class="md-raised md-primary">Wypłać</button>
+    </form>
+    </md-input-container>
+
   <div>
     <form name="changePasswordForm" (submit)="changePassword()">
       <div layout-gt-sm="row">

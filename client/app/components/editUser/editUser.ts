@@ -19,6 +19,8 @@ export class EditUserCmp implements OnInit {
   public user: User;
   public error = {};
   public categories;
+  public withdraw_amount;
+  public buy_amount;
   public password = {
     oldpassword: '',
     password: '',
@@ -47,6 +49,36 @@ export class EditUserCmp implements OnInit {
     this._userService.getMyUser()
       .subscribe(
         result => this.checkResponse(result));
+  }
+
+  withdraw() {
+    this._userService.withdraw(this.withdraw_amount)
+      .subscribe(
+        result => this.checkTransactionResponse(result, 'withdraw')
+      )
+  }
+
+  buy() {
+    this._userService.buy(this.buy_amount)
+      .subscribe(
+        result => this.checkTransactionResponse(result, 'buy')
+      )
+  }
+
+  checkTransactionResponse(res, typ) {
+    if (res.hasOwnProperty('error')) {
+      alert(res.error);
+    } else {
+      if (typ == 'withdraw') {
+        alert('Pomyślnie wypłacono tokeny!');
+        this.withdraw_amount = '';
+      }
+      else {
+        alert('Dodano tokeny!');
+        this.buy_amount = '';
+      }
+      this.ngOnInit();
+    }
   }
 
   checkResponse(res) {

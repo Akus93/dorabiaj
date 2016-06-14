@@ -230,15 +230,15 @@ def update_myuserpassword():
     # walidacja formularza edycji
     if form.is_vailid():
         oldpassword = form.cleaned_data['oldpassword']
-        #sprawdzenie czy obecne hasła uzytwkonika sie zgadzaja
+        # sprawdzenie czy obecne hasła uzytwkonika sie zgadzaja
         if not check_password_hash(user.password, oldpassword):
             error = {'error': "Nieprawidłowe stare hasło"}
             return Response(json.dumps(error), status=200, content_type='application/json')
-        #sprawdzenie poprawnosci nowego hasla
+        # sprawdzenie poprawnosci nowego hasla
         if form.cleaned_data['password'] != form.cleaned_data['confirmpassword']:
             error = {'error': "Hasła nie są takie same"}
             return Response(json.dumps(error), status=200, content_type='application/json')
-        #wygenerowanie nowego hasla
+        # wygenerowanie nowego hasla
         user.password = generate_password_hash(form.cleaned_data['password'])
         user.save()
         return Response(json.dumps({'success': True}), content_type='application/json')
@@ -377,7 +377,7 @@ def pay():
         return Response(json.dumps({'error': 'Wystąpił błąd, spróbuj jeszcze raz.'}), status=200, content_type='application/json')
 
 
-#not working yet
+# not working yet
 @app.route('/opinion', methods=['POST'])
 @crossdomain(origin="http://localhost:5555")
 @login_required
@@ -433,3 +433,28 @@ def get_user_opinion(username):
     #print(user)
     #return Response(json.dumps({'success': True}), status=200, content_type='application/json')
     return Response(opinions.to_json(), status=200, content_type='application/json')
+
+
+@app.route('/withdraw', methods=['POST'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def withdraw():
+    amount = int(request.form['amount'])
+    user = get_user()
+    if not user.tokens >= amount:
+        return Response(json.dumps({'error': 'Nie masz wystarczajcej liczby tokenów'}), status=200, content_type='application/json')
+    user.tokens -= amount
+    user.save()
+    return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+
+
+@app.route('/buy', methods=['POST'])
+@crossdomain(origin="http://localhost:5555")
+@login_required
+def buy():
+    amount = int(request.form['amount'])
+    user = get_user()
+    user.tokens += amount
+    user.save()
+    return Response(json.dumps({'success': True}), status=200, content_type='application/json')
+

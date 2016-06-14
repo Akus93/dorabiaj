@@ -61,6 +61,28 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  withdraw(amount): Observable<JSON> {
+    var body = 'amount=' + amount;
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post('http://localhost:5000/withdraw', body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  buy(amount): Observable<JSON> {
+    var body = 'amount=' + amount;
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post('http://localhost:5000/buy', body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);
