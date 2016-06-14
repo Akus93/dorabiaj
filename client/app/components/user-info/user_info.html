@@ -7,6 +7,10 @@
       <h5 flex="50">Email: {{user.email}}</h5>
     </div>
     <h5>Zainteresowania: {{user.interests}}</h5>
+  <h4>Doświadczenie</h4>
+  <div *ngFor="#rank of user.ranks; #i = index">
+    <p>{{rank.category}}: {{rank.points}} punktów</p>
+  </div>
 
     <md-list>
       <md-subheader class="md-no-sticky">Opinie:</md-subheader>

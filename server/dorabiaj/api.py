@@ -201,7 +201,7 @@ def get_userinfo(username):
         return Response(json.dumps(error), status=200, content_type='application/json')
     user_info = {'username': user.username, 'email': user.email, 'firstName': user.first_name, 'interests': user.interests,
                  'lastName': user.last_name, 'city': user.city, 'admin': user.is_superuser, 'tokens': user.tokens,
-                 'opinions': user.opinions}
+                 'opinions': user.opinions, 'ranks': user.ranks}
     return Response(json.dumps(user_info), status=200, content_type='application/json')
 
 
