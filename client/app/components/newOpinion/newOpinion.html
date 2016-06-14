@@ -14,8 +14,8 @@
         <label>Ocena:</label>
         <md-input-container class="md-block" flex-gt-sm>
           <select [(ngModel)]="opinion.rank" required id="rank">
-            <option *ngFor="#value of scale" [(value)]="opinion.rank">
-              {{value}}
+            <option *ngFor="#rank of scale">
+              {{rank}}
             </option>
           </select>
         </md-input-container>
