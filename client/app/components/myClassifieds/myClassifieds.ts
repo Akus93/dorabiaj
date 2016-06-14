@@ -78,18 +78,18 @@ export class MyClassifiedsCmp implements OnInit {
   pay(classified, user) {
     this._classifiedService.pay(classified, user)
       .subscribe(
-        response => this.payResponse(response)
+        response => this.payResponse(response, classified)
       );
     this.ngOnInit();
   }
 
-  payResponse(res) {
+  payResponse(res, classified) {
     if (res.hasOwnProperty('error')) {
       alert(res.error);
       //this._router.navigate(['Home']);
     } else {
       alert('Zapłacono!');
-      //MIEJSCE NA PRZEKIEROWANIE DO DODAWANIA KOMENTARZA
+      this.router.navigate(['/NewOpinion', {id: classified._id.$oid}]);
     }
   }
 

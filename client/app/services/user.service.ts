@@ -37,6 +37,18 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  addOpinion(opinion, classifiedId): Observable<JSON> {
+    var body = 'classifiedId=' + classifiedId + '&description=' + opinion['description'] +
+      '&rank=' + opinion['rank'];
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post('http://localhost:5000/opinion', body, {headers: headers})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   changePassword(password): Observable<JSON> {
     var body = 'oldpassword=' + password['oldpassword'] + '&password=' + password['password']
       + '&confirmpassword=' + password['confirmpassword'];

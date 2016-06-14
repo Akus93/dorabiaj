@@ -18,7 +18,7 @@ import {EditClassifiedCmp} from '../editClassified/editClassified';
 import {EditUserCmp} from '../editUser/editUser';
 import {ClassifiedsForMeCmp} from '../classifiedsForMe/classifiedsForMe';
 import {MyOffersCmp} from '../myOffers/myOffers';
-
+import {NewOpinionCmp} from '../newOpinion/newOpinion';
 
 @Component({
   selector: 'app',
@@ -41,7 +41,7 @@ import {MyOffersCmp} from '../myOffers/myOffers';
   { path: '/edit-user', component: EditUserCmp, as: 'EditUser'},
   { path: '/classifieds-for-me', component: ClassifiedsForMeCmp, as: 'ClassifiedsForMe'},
   { path: '/my-offers', component: MyOffersCmp, as: 'MyOffers'},
-
+  { path: '/new-opinion/:id', component: NewOpinionCmp, as: 'NewOpinion'}
 ])
 export class AppCmp {
 

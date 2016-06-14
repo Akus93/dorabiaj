@@ -1,0 +1,27 @@
+<h1 class="md-headline">Oceń wykonaną pracę</h1>
+
+<md-content layout-padding>
+  <div>
+    <form name="opinionForm" (submit)="setOpinion()">
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Opinia</label>
+          <span [hidden]="error['description']==false">{{error['description']}}</span>
+          <input md-input id="description" [(ngModel)]="opinion.description" required>
+        </md-input-container>
+      </div>
+      <div layout-gt-sm="row">
+        <label>Ocena:</label>
+        <md-input-container class="md-block" flex-gt-sm>
+          <select [(ngModel)]="opinion.rank" required id="rank">
+            <option *ngFor="#value of scale" [(value)]="opinion.rank">
+              {{value}}
+            </option>
+          </select>
+        </md-input-container>
+      </div>
+      <button md-raised-button class="md-raised md-warn" (click)="cancel()">Anuluj</button>
+      <button md-raised-button class="md-raised md-primary" type="submit">Zapisz</button>
+    </form>
+  </div>
+</md-content>
