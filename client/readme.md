@@ -1,5 +1,7 @@
 # Introduction
 
+Aby uruchomić aplikację kliencką należy mieć zainstalowane środowisko Node.js, oferuje ono menadżera paczek - npm. Wchodzimy w główny folder o nazwie "client" i wykonujemy polecenie "npm install" - zainstaluje to wszystkie potrzebne paczki. Po instalacji należy wykonać komendę "npm start", Node.js uruchomi aplikację kliencką na porcie 5555, należy pamiętać, żeby wcześniej uruchomić aplikację serwera oraz mieć połączenie z Internetem, aby aplikacja działała prawidłowo.
+
 An example of how to integrate [Material Components for Angular2](https://github.com/justindujardin/ng2-material) by [Justin DuJardin - justindujardin](https://github.com/justindujardin)
 
 Project setup based [angular2-seed](https://github.com/mgechev/angular2-seed.git)
